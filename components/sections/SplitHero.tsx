@@ -1,0 +1,303 @@
+'use client';
+
+import { useState, useRef, useEffect } from 'react';
+import Link from 'next/link';
+import BrutalButton from '@/components/ui/BrutalButton';
+
+const SpinningBadge = () => (
+  <div className="absolute -bottom-10 -right-12 z-50 w-36 h-36 md:w-52 md:h-52 rounded-full border-2 border-black/10 bg-white/95 backdrop-blur-2xl flex items-center justify-center p-2 shadow-[0_30px_60px_rgba(0,0,0,0.25)] group/badge hover:scale-105 transition-transform duration-700">
+    <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible animate-[spin_20s_linear_infinite] group-hover/badge:[animation-duration:10s]">
+       <path id="circlePath" d="M 50, 50 m -40, 0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0" fill="transparent"/>
+       <text className="font-heading text-[10.5px] tracking-[0.25em] font-bold fill-black/80 uppercase">
+         <textPath href="#circlePath" startOffset="0%">
+            • SATYA COMPUTERS • NEXT GEN LAPTOPS •&nbsp;
+         </textPath>
+       </text>
+    </svg>
+    <div className="absolute inset-0 flex items-center justify-center p-12">
+      <img src="/satya_computers_logo.png" alt="SC" className="w-full h-auto drop-shadow-xl saturate-[1.2]" />
+    </div>
+  </div>
+);
+
+/* Animated HUD label that floats into position */
+const HUDLabel = ({ text, top, left, delay }: { text: string; top: string; left: string; delay: string }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.style.top = top;
+      ref.current.style.left = left;
+      ref.current.style.animationDelay = delay;
+    }
+  }, [top, left, delay]);
+
+  return (
+    <div
+      ref={ref}
+      className="absolute z-40 px-3 py-1.5 bg-black/40 backdrop-blur-md border border-white/10 text-white font-heading text-[8px] tracking-[0.4em] uppercase pointer-events-none animate-float shadow-2xl leading-none"
+    >
+      <div className="flex items-center gap-2.5">
+        <div className="w-1.5 h-1.5 bg-[var(--color-brand-primary)] animate-pulse flex-shrink-0" />
+        {text}
+      </div>
+    </div>
+  );
+};
+
+export default function SplitHero() {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const watermarkRef = useRef<HTMLDivElement>(null);
+  const stackRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => setMounted(true), []);
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    setMousePos({ x, y });
+    
+    if (cursorRef.current) {
+      cursorRef.current.style.left = `calc(${(x + 0.5) * 100}% - 20px)`;
+      cursorRef.current.style.top = `calc(${(y + 0.5) * 100}% - 20px)`;
+    }
+    if (watermarkRef.current) {
+      watermarkRef.current.style.transform = `rotate(-8deg) scale(1.3) translate(${x * -25}px, ${y * -25}px)`;
+    }
+    if (stackRef.current) {
+      stackRef.current.style.transform = `perspective(2500px) rotateX(${y * -14}deg) rotateY(${x * 14}deg)`;
+    }
+  };
+
+  const handleMouseLeave = () => setMousePos({ x: 0, y: 0 });
+
+  if (!mounted) return <div className="min-h-[90vh] bg-white" />;
+
+  return (
+    <section className="relative w-full min-h-[90vh] flex flex-col lg:flex-row overflow-hidden border-b-2 border-black/10 bg-[#FAF9F6]">
+      
+      {/* ─── LEFT ─── */}
+      <div className="w-full lg:w-[42%] h-full flex flex-col justify-center items-start px-6 py-16 md:p-16 lg:px-24 relative z-20">
+        <div className="inline-block border-2 border-black bg-white px-5 py-2 mb-10 transform -rotate-2 shadow-[4px_4px_0_var(--color-brand-primary)] hover:shadow-[6px_6px_0_black] hover:rotate-1 transition-all duration-300">
+          <span className="font-heading text-[11px] tracking-[0.3em] text-black uppercase font-bold">
+             // ENGINE CORE ONLINE
+          </span>
+        </div>
+        
+        <h1 className="font-heading text-6xl md:text-8xl xl:text-[8.5rem] tracking-tighter text-brand-text leading-[0.8] mb-10 relative z-10">
+          BOLD.<br/>
+          PREMIUM.<br/>
+          <span className="text-[var(--color-brand-primary)] relative italic">
+            UNCOMPROMISING.
+            <span className="absolute -bottom-2 -right-8 w-6 h-1 bg-black animate-pulse opacity-20" />
+          </span>
+        </h1>
+
+        <p className="font-body font-medium text-lg md:text-xl text-brand-text/60 max-w-sm mb-14 border-l-4 border-[var(--color-brand-primary)] pl-8 leading-relaxed">
+          Elite-tier calculating machinery for creators and engineers. Brutal performance, refined aesthetics.
+        </p>
+
+        <div className="flex flex-wrap gap-8 items-center">
+          <Link href="/products">
+            <BrutalButton className="!h-16 !px-12 text-2xl">ACCESS SYSTEM</BrutalButton>
+          </Link>
+          <div className="flex -space-x-4 isolate group">
+            {[
+              "1500648767791-00dcc994a43e",
+              "1534528741775-53994a69daeb",
+              "1507003211169-0a1dd7228f2d"
+            ].map((id, i) => (
+              <div key={i} className="w-14 h-14 rounded-full border-2 border-white bg-black/5 overflow-hidden relative z-10 hover:z-40 transition-all hover:scale-125 duration-500 hover:border-[var(--color-brand-primary)] cursor-pointer">
+                <img 
+                  src={`https://images.unsplash.com/photo-${id}?auto=format&fit=crop&q=80&w=150`}
+                  alt="Verified Pro"
+                  className="w-full h-full object-cover filter contrast-125"
+                />
+              </div>
+            ))}
+            <div className="w-14 h-14 rounded-full border-2 border-white bg-black flex items-center justify-center text-[var(--color-brand-primary)] font-heading text-sm relative z-20 group-hover:scale-110 transition-transform">
+              4.9★
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ─── RIGHT: THE VOID ─── */}
+      <div 
+        ref={containerRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className="w-full lg:w-[58%] min-h-[75vh] lg:min-h-full bg-[#030303] relative flex items-center justify-center overflow-hidden cursor-none"
+      >
+        {/* ─ Digital Environment ─ */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {/* Grid */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:40px_40px]" />
+          {/* Radial glow */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,rgba(241,90,36,0.06),transparent)]" />
+          {/* Scan line */}
+          <div className="absolute inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--color-brand-primary)]/60 to-transparent animate-scan-line shadow-[0_0_20px_4px_rgba(241,90,36,0.3)]" />
+          {/* Noise */}
+          <div className="absolute inset-0 hero-noise-overlay opacity-[0.04]" />
+        </div>
+
+        {/* ─ Crosshair cursor ─ */}
+        <div 
+          ref={cursorRef}
+          className="absolute pointer-events-none z-[100] w-10 h-10 border border-white/20 flex items-center justify-center transition-transform duration-75 ease-out hidden lg:flex"
+        >
+          <div className="absolute inset-y-0 w-px bg-white/20 left-1/2" />
+          <div className="absolute inset-x-0 h-px bg-white/20 top-1/2" />
+          <div className="w-1.5 h-1.5 bg-[var(--color-brand-primary)] animate-ping" />
+        </div>
+
+        {/* ─ Watermark text ─ */}
+        <div
+          ref={watermarkRef}
+          className="absolute inset-0 flex flex-col justify-center opacity-[0.02] pointer-events-none select-none overflow-hidden"
+        >
+          {[...Array(12)].map((_, i) => (
+            <h2 key={i} className="font-heading text-[11rem] md:text-[20rem] whitespace-nowrap leading-[0.65] tracking-tighter text-white font-black">
+              {i % 2 === 0 ? 'SATYA COMPUTERS' : '// PEAK PERFORMANCE //'}
+            </h2>
+          ))}
+        </div>
+
+        {/* ─ HUD Labels ─ */}
+        <HUDLabel text="Neural Engine Active" top="14%" left="10%" delay="0s" />
+        <HUDLabel text="Thermal: Optimal" top="80%" left="8%" delay="1.3s" />
+        <HUDLabel text="System Ready" top="10%" left="72%" delay="2.7s" />
+
+        {/* ─ 3D CARD STACK ─ */}
+        <div
+          ref={stackRef}
+          className="relative w-full max-w-5xl h-[550px] md:h-[820px] flex items-center justify-center group transition-transform duration-150 ease-out"
+        >
+          {/* ── CARD 1: Back-Left (MacBook) ── */}
+          <Link
+            href="/products/macbook-pro-14-m4"
+            className="absolute w-[65%] sm:w-[55%] aspect-[16/10] bg-zinc-900/95 border border-white/5 p-2 shadow-2xl
+              -translate-y-32 -translate-x-48 -rotate-12 scale-90 opacity-30 blur-[5px]
+              group-hover:-translate-y-44 group-hover:-translate-x-60 group-hover:-rotate-8 group-hover:scale-100 group-hover:blur-0 group-hover:opacity-100
+              transition-all duration-[900ms] ease-out z-10 hover:!z-[60] hover:ring-2 hover:ring-[var(--color-brand-primary)]"
+          >
+            <div className="relative w-full h-full overflow-hidden bg-black ring-1 ring-white/10 group/c1">
+              <img
+                src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=1000"
+                alt="MacBook"
+                className="w-full h-full object-cover opacity-50 grayscale group-hover/c1:grayscale-0 group-hover/c1:opacity-70 transition-all duration-700"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent p-5 flex flex-col justify-end">
+                <span className="font-heading text-[9px] text-[var(--color-brand-primary)] tracking-[0.4em] mb-1.5 font-bold">UNIFIED MEMORY</span>
+                <span className="font-body text-white text-sm font-black uppercase">MacBook Pro M4</span>
+              </div>
+            </div>
+          </Link>
+
+          {/* ── CARD 2: Back-Right (ROG) ── */}
+          <Link
+            href="/products/asus-rog-zephyrus-g14-2024"
+            className="absolute w-[65%] sm:w-[55%] aspect-[16/10] bg-zinc-900/95 border border-[var(--color-brand-primary)]/20 p-2 shadow-2xl
+              translate-y-32 translate-x-48 rotate-12 scale-90 opacity-30 blur-[5px]
+              group-hover:translate-y-44 group-hover:translate-x-60 group-hover:rotate-8 group-hover:scale-100 group-hover:blur-0 group-hover:opacity-100
+              transition-all duration-[900ms] ease-out z-10 hover:!z-[60] hover:ring-2 hover:ring-[var(--color-brand-primary)]"
+          >
+            <div className="relative w-full h-full overflow-hidden bg-black ring-1 ring-white/10 group/c2">
+              <img
+                src="https://images.unsplash.com/photo-1624701928517-44c8ac49d93c?auto=format&fit=crop&q=80&w=1000"
+                alt="ROG Gaming"
+                className="w-full h-full object-cover opacity-50 mix-blend-screen group-hover/c2:opacity-80 transition-opacity duration-700"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[var(--color-brand-primary)]/60 to-transparent h-1/2 p-5 flex flex-col justify-end">
+                <span className="font-heading text-[9px] text-white tracking-[0.4em] mb-1.5 font-bold">RTX OPTIMIZED</span>
+                <span className="font-body text-white text-sm font-black uppercase">ROG Zephyrus G14</span>
+              </div>
+            </div>
+          </Link>
+
+          {/* ── CARD 3: Main Focus (Dell XPS 14) ── */}
+          <Link
+            href="/products/dell-xps-14-9440"
+            className="absolute w-[85%] sm:w-[70%] max-w-[520px] aspect-[4/5] bg-white border-[4px] border-black p-4 md:p-5
+              shadow-[0_80px_150px_-30px_rgba(0,0,0,0.8)]
+              group-hover:scale-[1.04] group-hover:shadow-[0_100px_180px_-40px_rgba(241,90,36,0.35)]
+              transition-all duration-500 ease-out z-30 hover:!z-[70]"
+          >
+            <div className="relative w-full h-full bg-zinc-100 flex flex-col group/main overflow-hidden">
+              
+              {/* ─ Product Image Zone ─ */}
+              <div className="relative w-full h-[63%] bg-[#060606] overflow-hidden flex items-center justify-center p-10">
+                {/* Radar pings */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="w-64 h-64 border border-white/[0.04] rounded-full animate-[ping_3s_ease-out_infinite]" />
+                  <div className="absolute w-48 h-48 border border-white/[0.06] rounded-full animate-[ping_3s_ease-out_1s_infinite]" />
+                  <div className="absolute w-28 h-28 border border-white/[0.08] rounded-full animate-[ping_3s_ease-out_2s_infinite]" />
+                </div>
+                
+                <img
+                  src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&q=80&w=1200"
+                  alt="Dell XPS 14"
+                  className="w-full h-full object-cover relative z-10 drop-shadow-[0_40px_80px_rgba(0,0,0,0.95)]
+                    transition-all duration-1000 ease-out
+                    group-hover/main:scale-110 group-hover/main:-rotate-3"
+                />
+                
+                {/* Glare sweep */}
+                <div className="absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/8 to-transparent skew-x-[45deg] transition-all duration-[1800ms] ease-in-out group-hover/main:left-[200%] pointer-events-none" />
+                
+                <div className="absolute top-5 left-5 z-20 flex gap-2">
+                  <span className="bg-black text-white font-heading text-[10px] tracking-[0.3em] px-4 py-1.5 font-bold border border-white/10">ELITE SPEC</span>
+                  <span className="bg-[var(--color-brand-primary)] text-white font-heading text-[10px] tracking-[0.2em] px-3 py-1.5 font-bold">HOT</span>
+                </div>
+              </div>
+
+              {/* ─ Data Panel ─ */}
+              <div className="flex-1 bg-white p-7 pt-6 flex flex-col justify-between relative">
+                <div className="absolute bottom-0 right-0 p-5 opacity-[0.04] pointer-events-none">
+                  <img src="/satya_computers_logo.png" alt="" className="h-24 w-auto grayscale" />
+                </div>
+                
+                <div className="relative z-20">
+                  <h3 className="font-heading text-[2.6rem] md:text-[3.2rem] text-black uppercase leading-[0.82] tracking-[-0.03em] font-black mb-6">
+                    Dell XPS 14<br/>
+                    <span className="text-[var(--color-brand-primary)] italic">STUDIO</span>
+                  </h3>
+                  
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="border-l-[3px] border-black pl-3">
+                      <span className="block font-heading text-[8px] text-black/30 tracking-[0.4em] mb-1.5 uppercase font-bold">ARC ENGINE</span>
+                      <span className="block font-body text-[12px] font-black text-black uppercase">Ultra 7 155H</span>
+                    </div>
+                    <div className="border-l-[3px] border-black/10 pl-3">
+                      <span className="block font-heading text-[8px] text-black/30 tracking-[0.4em] mb-1.5 uppercase font-bold">V-CARD</span>
+                      <span className="block font-body text-[12px] font-black text-black uppercase">RTX 4050</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex items-end justify-between border-t-[3px] border-black pt-5 mt-auto">
+                  <div className="group/stock">
+                    <span className="flex items-center gap-2.5 bg-black text-white px-5 py-2.5 font-heading text-[11px] tracking-[0.3em] font-bold cursor-pointer hover:bg-[var(--color-brand-primary)] transition-colors duration-300 active:scale-95">
+                      <span className="w-2.5 h-2.5 rounded-full bg-green-400 animate-[pulse_1s_ease-in-out_infinite] shadow-[0_0_8px_rgba(74,222,128,0.8)]" />
+                      LIVE&nbsp;STOCK
+                    </span>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-heading text-[8px] text-black/30 tracking-[0.3em] mb-1 uppercase font-bold">MKT VALUE</p>
+                    <p className="font-body text-3xl font-black text-black leading-none tracking-tighter">₹1,70,000</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <SpinningBadge />
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
