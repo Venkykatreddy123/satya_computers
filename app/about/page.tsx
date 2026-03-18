@@ -66,11 +66,13 @@ export default function AboutPage() {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <div className="relative aspect-[4/5] bg-[#F1F1F1] overflow-hidden group">
-            <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-transparent z-10 opacity-30 group-hover:opacity-10 transition-opacity duration-700" />
-            <div className="absolute bottom-8 left-8 z-20">
-              <h3 className="font-heading text-4xl text-[#1A1A1A] uppercase tracking-tighter mix-blend-difference">Our DNA</h3>
-            </div>
+          <div className="relative aspect-[4/5] bg-[#F1F1F1] overflow-hidden group border-2 border-black/5 shadow-xl">
+            <img 
+              src="/images/about-precision.png" 
+              alt="Precision Hardware Engineering" 
+              className="absolute inset-0 w-full h-full object-cover grayscale-[0.4] group-hover:grayscale-0 transition-all duration-1000 scale-[1.1] group-hover:scale-100 ease-out"
+            />
+            <div className="absolute inset-0 bg-gradient-to-br from-black/30 to-transparent z-10 opacity-40 group-hover:opacity-10 transition-opacity duration-700" />
           </div>
         </motion.div>
 

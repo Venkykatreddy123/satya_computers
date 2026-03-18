@@ -184,17 +184,27 @@ export default function CheckoutPage() {
               <div className="border-t border-black/5 pt-10">
                 <h3 className="font-heading text-3xl text-brand-text mb-8 uppercase tracking-tighter">PAYMENT METHOD</h3>
                 <div className="space-y-4">
-                  <label className={`flex items-center gap-4 p-6 border-2 cursor-pointer group transition-all ${paymentMethod === 'COD' ? 'border-[var(--color-gold)] bg-orange-50/30' : 'border-black/5 hover:border-black/20'}`}>
+                  <label className={`flex items-center gap-4 p-6 border-2 cursor-pointer group transition-all relative overflow-hidden ${paymentMethod === 'COD' ? 'border-[var(--color-brand-primary)] bg-orange-50/30 shadow-[0_4px_20px_rgba(241,90,36,0.1)]' : 'border-black/5 hover:border-black/20'}`}>
+                    {paymentMethod === 'COD' && (
+                      <div className="absolute top-0 right-0 bg-[var(--color-brand-primary)] text-white text-[8px] font-heading tracking-[0.2em] px-3 py-1 uppercase z-10">
+                        RECOMMENDED
+                      </div>
+                    )}
                     <input 
                       type="radio" 
                       name="payment" 
                       checked={paymentMethod === 'COD'} 
                       onChange={() => setPaymentMethod('COD')}
-                      className="accent-[var(--color-gold)] w-5 h-5" 
+                      className="accent-[var(--color-brand-primary)] w-5 h-5 shrink-0" 
                     />
                     <div className="flex flex-col">
-                      <span className="font-heading text-xl text-brand-text">CASH ON DELIVERY (COD)</span>
-                      <span className="font-body text-[10px] text-brand-text/40 font-bold uppercase tracking-widest">Verify at Doorstep • Most Popular</span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-heading text-xl text-brand-text">CASH ON DELIVERY (COD)</span>
+                        <div className="hidden sm:block px-2 py-0.5 border border-[var(--color-brand-primary)]/30 text-[var(--color-brand-primary)] text-[8px] font-heading tracking-widest uppercase rounded">
+                           Zero Risk
+                        </div>
+                      </div>
+                      <span className="font-body text-[10px] text-brand-text/40 font-bold uppercase tracking-widest">Pay Only After Verification • Best for Trust</span>
                     </div>
                   </label>
                   

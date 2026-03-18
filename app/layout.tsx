@@ -17,8 +17,13 @@ const raleway = Raleway({
 });
 
 export const metadata: Metadata = {
-  title: "STONE & GOLD | Satya Computers",
-  description: "Bold. Premium. Uncompromising. Business laptops, workstations, enterprise peripherals.",
+  title: "Satya Computers",
+  description: "Trusted bulk laptop reseller in Hyderabad. Business laptops, workstations, and enterprise peripherals at competitive prices.",
+  icons: {
+    icon: "/satya_computers_logo.png",
+    shortcut: "/satya_computers_logo.png",
+    apple: "/satya_computers_logo.png",
+  },
 };
 
 export default function RootLayout({

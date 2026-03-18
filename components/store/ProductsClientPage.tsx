@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import ProductCard from '@/components/store/ProductCard';
 import type { Product } from '@/data/products';
+import { Filter } from 'lucide-react';
 
 type SortOption = 'featured' | 'price-asc' | 'price-desc' | 'name-asc' | 'name-desc';
 
@@ -38,7 +39,7 @@ export default function ProductsClientPage({ products }: ProductsClientPageProps
   const [sortOption, setSortOption] = useState<SortOption>('featured');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 0]);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const [mobileFiltersOpen] = useState(false);
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   // Initialize from search params
@@ -191,105 +192,149 @@ export default function ProductsClientPage({ products }: ProductsClientPageProps
 
   return (
     <>
-      {/* Search Bar */}
-      <section className="py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-20">
-        <div className="relative max-w-2xl mx-auto">
-          <div className={`relative flex items-center bg-white border-2 transition-all duration-300 shadow-sm ${
-            isSearchFocused 
-              ? 'border-[var(--color-brand-primary)] shadow-[0_0_0_4px_rgba(var(--color-brand-primary-rgb,209,88,0),0.1)]' 
-              : 'border-black/10 hover:border-black/20'
-          }`}>
-            {/* Search Icon */}
-            <div className="pl-5 pr-2 text-brand-text-muted">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8" />
-                <path d="m21 21-4.35-4.35" />
-              </svg>
-            </div>
-            <input
-              ref={searchInputRef}
-              id="product-search"
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onFocus={() => setIsSearchFocused(true)}
-              onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
-              placeholder="Search laptops by name, brand, processor, specs..."
-              className="flex-1 py-4 px-3 font-body text-base text-brand-text placeholder:text-brand-text-muted/60 focus:outline-none bg-transparent"
-              aria-label="Search products"
-            />
-            {searchQuery && (
-              <button
-                onClick={() => { setSearchQuery(''); searchInputRef.current?.focus(); }}
-                className="px-4 text-brand-text-muted hover:text-brand-text transition-colors"
-                aria-label="Clear search"
-                title="Clear search"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M18 6 6 18" />
-                  <path d="m6 6 12 12" />
+      {/* Search Bar / Top Controls - Bulletproof FIXED styling for "No Movement" experience */}
+      <div className="fixed-search-wrapper z-[90] bg-white border-b border-black/10 shadow-sm pt-4 pb-4">
+        <style dangerouslySetInnerHTML={{__html: `
+          .fixed-search-wrapper { position: fixed; top: 140px; left: 0; right: 0; }
+          @media (min-width: 768px) { .fixed-search-wrapper { top: 124px; } }
+          .sticky-configurator { position: sticky; top: 204px; }
+        `}} />
+        <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+          <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-4">
+            {/* Search Input */}
+            <div className={`relative flex-1 flex items-center bg-white border-2 transition-all duration-300 shadow-sm ${
+              isSearchFocused 
+                ? 'border-[var(--color-brand-primary)] shadow-[0_0_0_4px_rgba(var(--color-brand-primary-rgb,209,88,0),0.1)]' 
+                : 'border-black/10 hover:border-black/20'
+            }`}>
+              {/* Search Icon */}
+              <div className="pl-5 pr-2 text-brand-text-muted">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8" />
+                  <path d="m21 21-4.35-4.35" />
                 </svg>
-              </button>
-            )}
-
-          </div>
-
-          {/* Search Suggestions Dropdown */}
-          {isSearchFocused && searchSuggestions.length > 0 && (
-            <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-black/10 shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
-              <div className="px-4 py-2 border-b border-black/5">
-                <span className="font-body text-xs text-brand-text-muted tracking-wider uppercase">Quick Results</span>
               </div>
-              {searchSuggestions.map((product) => (
-                <Link
-                  key={product.id}
-                  href={`/products/${product.slug}`}
-                  className="flex items-center gap-4 px-4 py-3 hover:bg-gray-50 transition-colors border-b border-black/5 last:border-none group"
+              <input
+                ref={searchInputRef}
+                id="product-search"
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onFocus={() => setIsSearchFocused(true)}
+                onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
+                placeholder="Search laptops by name, brand, specs..."
+                className="flex-1 py-3 px-3 font-body text-sm md:text-base text-brand-text placeholder:text-brand-text-muted/60 focus:outline-none bg-transparent"
+                aria-label="Search products"
+                suppressHydrationWarning
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => { setSearchQuery(''); searchInputRef.current?.focus(); }}
+                  className="px-4 text-brand-text-muted hover:text-brand-text transition-colors"
+                  aria-label="Clear search"
+                  title="Clear search"
                 >
-                  <div className="w-12 h-12 bg-gray-100 flex-shrink-0 overflow-hidden">
-                    <img src={product.image} alt="" className="w-full h-full object-cover" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="font-heading text-sm text-brand-text group-hover:text-[var(--color-brand-primary)] transition-colors truncate">{product.name}</p>
-                    <p className="font-body text-xs text-brand-text-muted">{product.brand} · {product.specs.processor}</p>
-                  </div>
-                  <span className="font-body text-sm font-semibold text-[var(--color-brand-primary)] flex-shrink-0">
-                    {formatPrice(product.price)}
-                  </span>
-                </Link>
-              ))}
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 6 6 18" />
+                    <path d="m6 6 12 12" />
+                  </svg>
+                </button>
+              )}
             </div>
-          )}
-        </div>
-      </section>
 
-        {/* Search results count when searching */}
+            {/* Filter / Sort Right Side */}
+            <div className="flex items-center justify-between lg:justify-end gap-3 flex-wrap lg:flex-nowrap">
+              <div className="flex flex-col hidden sm:flex">
+                <span className="font-body text-xs text-brand-text/50 uppercase tracking-wider">
+                  Found <strong className="text-[var(--color-brand-primary)] font-bold">{filteredProducts.length}</strong> modules
+                </span>
+              </div>
+              
+              <div className="flex items-center gap-2 flex-1 sm:flex-none">
+                <span className="hidden sm:inline font-heading text-xs tracking-widest text-black/40 uppercase">ORDER BY:</span>
+                <select
+                  aria-label="Sort products"
+                  value={sortOption}
+                  onChange={(e) => setSortOption(e.target.value as SortOption)}
+                  className="bg-white border-2 border-black text-brand-text py-2.5 px-3 focus:outline-none focus:bg-black focus:text-white transition-all font-heading text-[10px] sm:text-xs uppercase tracking-widest cursor-pointer flex-1 sm:flex-none min-w-[140px]"
+                >
+                  <option value="featured">RANK: FEATURED</option>
+                  <option value="price-asc">COST: ASC</option>
+                  <option value="price-desc">COST: DESC</option>
+                  <option value="name-asc">A - Z</option>
+                  <option value="name-desc">Z - A</option>
+                </select>
+                <button 
+                  onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
+                  aria-label="Toggle filters"
+                  className={`md:hidden p-2.5 border-2 transition-colors flex items-center justify-center ${mobileFiltersOpen ? 'bg-black text-white border-black' : 'bg-white text-black border-black hover:bg-gray-50'}`}
+                >
+                  <Filter size={18} />
+                </button>
+              </div>
+            </div>
+            
+            {/* Search Suggestions Dropdown */}
+            {isSearchFocused && searchSuggestions.length > 0 && (
+              <div className="absolute top-full left-4 sm:left-6 lg:left-8 right-4 sm:right-6 lg:right-auto lg:w-[400px] mt-2 bg-white border border-black/10 shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="px-4 py-2 border-b border-black/5">
+                  <span className="font-body text-xs text-brand-text-muted tracking-wider uppercase">Quick Results</span>
+                </div>
+                {searchSuggestions.map((product) => (
+                  <Link
+                    key={product.id}
+                    href={`/products/${product.slug}`}
+                    className="flex items-center gap-4 px-4 py-3 hover:bg-gray-50 transition-colors border-b border-black/5 last:border-none group"
+                  >
+                    <div className="w-12 h-12 bg-gray-100 flex-shrink-0 overflow-hidden">
+                      <img src={product.image} alt="" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-heading text-sm text-brand-text group-hover:text-[var(--color-brand-primary)] transition-colors truncate">{product.name}</p>
+                      <p className="font-body text-xs text-brand-text-muted">{product.brand} · {product.specs.processor}</p>
+                    </div>
+                    <span className="font-body text-sm font-semibold text-[var(--color-brand-primary)] flex-shrink-0">
+                      {formatPrice(product.price)}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            )}
+            
+          </div>
+        </div>
+      </div>
+
+      {/* Spacer to prevent product grid from sliding under the FIXED search bar */}
+      <div className="h-[140px] md:h-[84px]" aria-hidden="true" />
+
+        {/* Search results count when searching (Active Filters Strip) */}
       {(hasActiveFilters || sortOption !== 'featured') && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-4">
-          <div className="flex flex-wrap items-center gap-2 py-3 border-y border-black/5">
-             <span className="font-heading text-xs tracking-widest text-brand-text-muted">ACTIVE FILTERS:</span>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-2">
+          <div className="flex flex-wrap items-center gap-2 py-2">
+             <span className="font-heading text-[10px] tracking-widest text-brand-text-muted">ACTIVE FILTERS:</span>
              {searchQuery && (
-               <button onClick={() => setSearchQuery('')} className="bg-black text-white px-2 py-1 font-heading text-[10px] flex items-center gap-2 hover:bg-[var(--color-brand-primary)]">
+               <button onClick={() => setSearchQuery('')} className="bg-black text-white px-2 py-1 font-heading text-[10px] flex items-center gap-2 hover:bg-[var(--color-brand-primary)] rounded">
                  SEARCH: {searchQuery} <span>×</span>
                </button>
              )}
              {selectedBrand && (
-               <button onClick={() => setSelectedBrand(null)} className="border border-black px-2 py-1 font-heading text-[10px] flex items-center gap-2 hover:bg-[var(--color-brand-primary)] hover:text-white hover:border-transparent">
+               <button onClick={() => setSelectedBrand(null)} className="border border-black px-2 py-1 font-heading text-[10px] flex items-center gap-2 hover:bg-[var(--color-brand-primary)] hover:text-white hover:border-transparent rounded">
                  BRAND: {selectedBrand} <span>×</span>
                </button>
              )}
              {selectedBadge && (
-               <button onClick={() => setSelectedBadge(null)} className="border border-black px-2 py-1 font-heading text-[10px] flex items-center gap-2 hover:bg-[var(--color-brand-primary)] hover:text-white hover:border-transparent">
+               <button onClick={() => setSelectedBadge(null)} className="border border-black px-2 py-1 font-heading text-[10px] flex items-center gap-2 hover:bg-[var(--color-brand-primary)] hover:text-white hover:border-transparent rounded">
                  STATUS: {selectedBadge} <span>×</span>
                </button>
              )}
              {selectedCategory && (
-               <button onClick={() => setSelectedCategory(null)} className="border border-black px-2 py-1 font-heading text-[10px] flex items-center gap-2 hover:bg-[var(--color-brand-primary)] hover:text-white hover:border-transparent">
+               <button onClick={() => setSelectedCategory(null)} className="border border-black px-2 py-1 font-heading text-[10px] flex items-center gap-2 hover:bg-[var(--color-brand-primary)] hover:text-white hover:border-transparent rounded">
                  CLASS: {selectedCategory} <span>×</span>
                </button>
              )}
              {(priceRange[0] > priceBounds.min || priceRange[1] < priceBounds.max) && (
-               <button onClick={() => setPriceRange([priceBounds.min, priceBounds.max])} className="border border-black px-2 py-1 font-heading text-[10px] flex items-center gap-2 hover:bg-[var(--color-brand-primary)] hover:text-white hover:border-transparent">
+               <button onClick={() => setPriceRange([priceBounds.min, priceBounds.max])} className="border border-black px-2 py-1 font-heading text-[10px] flex items-center gap-2 hover:bg-[var(--color-brand-primary)] hover:text-white hover:border-transparent rounded">
                  PRICE: {formatPrice(priceRange[0])}-{formatPrice(priceRange[1])} <span>×</span>
                </button>
              )}
@@ -299,13 +344,16 @@ export default function ProductsClientPage({ products }: ProductsClientPageProps
           </div>
         </div>
       )}
-
+      
       {/* Main Content */}
       <section className="py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col md:flex-row gap-10 relative z-10">
         
         {/* Sidebar Filters - Technical Card Style */}
-        <aside className={`w-full md:w-72 flex-shrink-0 ${mobileFiltersOpen ? 'block' : 'hidden md:block'}`}>
-          <div className="sticky top-28 bg-[#fdfdfd] border-2 border-black p-6 shadow-[8px_8px_0_rgba(0,0,0,0.05)] space-y-10 group/sidebar transition-shadow hover:shadow-[12px_12px_0_rgba(0,0,0,0.08)]">
+        <aside className={`w-full md:w-72 flex-shrink-0 ${mobileFiltersOpen ? 'block mb-8' : 'hidden md:block'}`}>
+          <div 
+            className="sticky-configurator bg-white border-2 border-black p-6 shadow-[8px_8px_0_rgba(0,0,0,0.05)] space-y-10 group/sidebar transition-shadow hover:shadow-[12px_12px_0_rgba(0,0,0,0.08)] overflow-y-auto custom-scrollbar z-30"
+            style={{ maxHeight: 'calc(100vh - 200px)' }}
+          >
             
             <div className="flex items-center justify-between border-b pb-4">
               <h3 className="font-heading text-2xl tracking-widest text-[#1a1a1a]">CONFIGURATOR</h3>
@@ -448,29 +496,12 @@ export default function ProductsClientPage({ products }: ProductsClientPageProps
 
         {/* Product Grid */}
         <div className="flex-1 min-h-[80vh]">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 gap-4">
-            <div className="flex flex-col">
-              <span className="font-body text-sm text-brand-text/50">
-                Found <strong className="text-brand-text font-bold">{filteredProducts.length}</strong> modules
-              </span>
-              <div className="h-0.5 w-12 bg-[var(--color-brand-primary)] mt-1 animate-pulse"></div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <span className="font-heading text-xs tracking-widest text-black/40 uppercase">ORDER BY:</span>
-              <select
-                aria-label="Sort products"
-                value={sortOption}
-                onChange={(e) => setSortOption(e.target.value as SortOption)}
-                className="bg-white border-2 border-black text-brand-text py-2 px-4 focus:outline-none focus:bg-black focus:text-white transition-all font-heading text-xs uppercase tracking-widest cursor-pointer min-w-[180px]"
-              >
-                <option value="featured">RANK: FEATURED</option>
-                <option value="price-asc">COST: ASCENDING</option>
-                <option value="price-desc">COST: DESCENDING</option>
-                <option value="name-asc">ALPHA: A - Z</option>
-                <option value="name-desc">ALPHA: Z - A</option>
-              </select>
-            </div>
+          {/* Mobile found stats inline with grid if needed */}
+          <div className="mb-6 sm:hidden">
+             <span className="font-body text-xs text-brand-text/50 uppercase tracking-wider">
+               Found <strong className="text-[var(--color-brand-primary)] font-bold">{filteredProducts.length}</strong> modules
+             </span>
+             <div className="h-0.5 w-8 bg-[var(--color-brand-primary)] mt-1 animate-pulse"></div>
           </div>
 
           {filteredProducts.length > 0 ? (

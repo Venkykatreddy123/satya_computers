@@ -3,28 +3,33 @@
 import { storeInfo } from '@/data/store-info';
 import { motion } from 'framer-motion';
 import GrainOverlay from '@/components/ui/GrainOverlay';
-import { Scale, FileText, AlertTriangle, CheckSquare, MessageSquare, Handshake, Mail } from 'lucide-react';
+import { ShieldCheck, UserCircle, Laptop, Boxes, Tag, Mail, MessageSquare } from 'lucide-react';
 
 const terms = [
   {
-    icon: Scale,
-    title: "Acceptance of Protocol",
-    content: "By accessing this architecture, you agree to be bound by these Terms of Service and all applicable laws and regulations in the jurisdiction of Telangana, India."
+    icon: ShieldCheck,
+    title: "Privacy Practices",
+    content: "We are committed to safeguarding your personal information. Your use of this website (“Site”) is governed by our Privacy Policy. By accessing or using the Site, you consent to the collection, use, and disclosure of your personal data as outlined in the Privacy Policy, which may be updated periodically."
   },
   {
-    icon: AlertTriangle,
-    title: "Usage & Accuracy",
-    content: "While we strive for absolute precision, Satya Computers does not warrant that product descriptions or other site architectural content are error-free or complete."
+    icon: UserCircle,
+    title: "Your Account",
+    content: "Use of the Site is permitted only for individuals 18 years or older. By creating an account (“Account”), you agree to keep your login credentials confidential, accept responsibility for all activity under your account, and provide accurate, lawful, and complete information. If you suspect unauthorized access, please notify us immediately."
   },
   {
-    icon: Handshake,
-    title: "Commercial Engagement",
-    content: "All orders placed are subject to availability and credit verification. We reserve the right to decline any order at our sole discretion."
+    icon: Laptop,
+    title: "Product Information",
+    content: "We aim to provide accurate up-to-date product details. However, we do not guarantee that product descriptions, specifications, or images are always error-free. Actual product appearance and features may vary. We reserve the right to correct any inaccuracies or omissions without prior notice."
   },
   {
-    icon: FileText,
-    title: "Intellectual Property",
-    content: "The aesthetic, code, and brand identifiers are the property of Satya Computers. Unauthorized reproduction of this digital architecture is prohibited."
+    icon: Boxes,
+    title: "Product Use",
+    content: "Products and samples offered on the Site are intended for your personal and/or professional use only and must not be resold for commercial purposes."
+  },
+  {
+    icon: Tag,
+    title: "Pricing Information",
+    content: "Pricing or product information errors may occur. In such cases, we reserve the right to cancel orders. If you've already paid, we will initiate a refund to your original payment method. Prices and product availability are subject to change without notice."
   }
 ];
 
@@ -51,7 +56,7 @@ export default function TermsOfServicePage() {
       </section>
 
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto grid lg:grid-cols-3 gap-12">
-        <div className="lg:col-span-2 space-y-12">
+        <div className="lg:col-span-2 space-y-16">
           {terms.map((t, i) => (
             <motion.div 
               key={t.title}
@@ -61,34 +66,39 @@ export default function TermsOfServicePage() {
               transition={{ delay: i * 0.1 }}
               className="space-y-6"
             >
-              <div className="flex items-center gap-6">
-                <div className="w-12 h-12 flex items-center justify-center bg-[#1A1A1A] text-white">
-                  <t.icon size={22} strokeWidth={1.5} />
+              <div className="flex items-center gap-6 group">
+                <div className="w-14 h-14 flex items-center justify-center bg-[#1A1A1A] text-white group-hover:bg-[var(--color-brand-primary)] transition-colors duration-300">
+                  <t.icon size={28} strokeWidth={1.5} />
                 </div>
-                <h3 className="font-heading text-4xl text-[#1A1A1A] uppercase leading-none">{t.title}</h3>
+                <h2 className="font-heading text-4xl text-[#1A1A1A] uppercase leading-none tracking-tight">{t.title}</h2>
               </div>
-              <p className="font-body text-base text-black/60 leading-relaxed tracking-wider pl-18 max-w-2xl">{t.content}</p>
+              <p className="font-body text-base text-black/60 leading-relaxed tracking-wider sm:pl-20 max-w-2xl">{t.content}</p>
             </motion.div>
           ))}
         </div>
 
-        <div className="bg-[#000] text-white p-12 h-fit border-[1px] border-white/5 relative overflow-hidden group">
-          <div className="absolute inset-0 hero-dot-grid opacity-10 invert" />
+        <div className="bg-[#000] text-white p-12 h-fit border-[1px] border-white/5 relative overflow-hidden group hover:shadow-[0_20px_50px_rgba(0,0,0,0.4)] transition-all duration-500 sticky top-32">
+          <div className="absolute inset-0 hero-dot-grid opacity-10 invert translate-x-2 translate-y-2" />
           <div className="relative z-10">
             <h2 className="font-heading text-4xl mb-8 uppercase leading-[0.9]">Legal <br /><span className="text-[var(--color-brand-primary)]">Support.</span></h2>
             <div className="prose prose-invert max-w-none font-body text-xs uppercase tracking-[0.1em] leading-[2.4] text-white/50">
               <p>
                 For detailed legal inquiries or clarifications regarding our commercial protocol, please connect with our administrative team.
               </p>
-              <div className="pt-8 mt-8 border-t border-white/10">
-                <h4 className="font-heading text-xl text-white mb-4 uppercase">Queries Channel</h4>
-                <div className="flex items-center gap-3 text-white/80 hover:text-[var(--color-brand-primary)] transition-colors mb-2">
-                  <Mail size={14} />
-                  <span>legal@satyacomputers.topiko.com</span>
+              <div className="pt-8 mt-8 border-t border-white/10 space-y-4">
+                <h4 className="font-heading text-xl text-white mb-2 uppercase tracking-widest">Queries Channel</h4>
+                <div className="flex items-center gap-3 text-white/80 hover:text-[var(--color-brand-primary)] transition-colors">
+                  <Mail size={16} className="text-[var(--color-brand-primary)]" />
+                  <span className="lowercase">{storeInfo.email}</span>
                 </div>
                 <div className="flex items-center gap-3 text-white/80 hover:text-[var(--color-brand-primary)] transition-colors">
-                  <MessageSquare size={14} />
-                  <span>+91 {storeInfo.phone}</span>
+                  <MessageSquare size={16} className="text-[var(--color-brand-primary)]" />
+                  <a
+                    href={`tel:+91${storeInfo.phone}`}
+                    className="hover:text-[var(--color-brand-primary)] transition-colors no-underline font-bold"
+                  >
+                    +91 {storeInfo.phone}
+                  </a>
                 </div>
               </div>
             </div>

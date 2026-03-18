@@ -76,7 +76,7 @@ export default function CategoryGrid({ counts = {} }: CategoryGridProps) {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:auto-rows-[240px]">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[280px] md:auto-rows-[240px]">
         {categories.map((cat, idx) => {
           const count = counts[cat.id] || counts[cat.title.toLowerCase()] || 0;
           

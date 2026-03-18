@@ -2,7 +2,7 @@
 
 import GrainOverlay from '@/components/ui/GrainOverlay';
 import { motion } from 'framer-motion';
-import { Building2, GraduationCap, Laptop, ShieldCheck, Cpu, Headphones } from 'lucide-react';
+import { Building2, Laptop, ShieldCheck, Cpu, Headphones } from 'lucide-react';
 import BrutalButton from '@/components/ui/BrutalButton';
 import Link from 'next/link';
 
@@ -13,13 +13,6 @@ const solutions = [
     description: "Equipping entire IT departments with high-spec workstations from Dell, HP, and Apple. Scalable procurement with localized support.",
     tier: "CORPORATE",
     accent: "bg-[var(--color-brand-primary)]"
-  },
-  {
-    icon: GraduationCap,
-    title: "Educational Tech Program",
-    description: "Reliable, durable laptops for students and educational institutions. High-performance specs at budget-friendly entry points.",
-    tier: "ACADEMIC",
-    accent: "bg-[#401F5E]"
   },
   {
     icon: Laptop,
@@ -91,16 +84,14 @@ export default function SolutionsPage() {
                     <div className="w-12 h-12 flex items-center justify-center border border-black/5 bg-black/[0.02] group-hover:bg-[var(--color-brand-primary)] group-hover:text-white transition-colors">
                       <s.icon size={22} strokeWidth={1.5} />
                     </div>
-                    <span className="font-heading text-[10px] tracking-[0.3em] text-black/40 font-bold uppercase">{s.tier}</span>
+                    <span className="font-heading text-[10px] tracking-[0.3em] text-black/40 font-bold uppercase ml-auto">{s.tier}</span>
                   </div>
                   
                   <h3 className="font-heading text-3xl text-[#1A1A1A] leading-none uppercase">{s.title}</h3>
                   <p className="font-body text-sm text-black/50 leading-relaxed uppercase tracking-wider">{s.description}</p>
                 </div>
                 
-                <div className="mt-8 pt-6 border-t border-black/5 w-full">
-                  <span className="font-heading text-xs tracking-widest text-[var(--color-brand-primary)] opacity-0 group-hover:opacity-100 transition-opacity">LEVEL OVERVIEW &rarr;</span>
-                </div>
+                
               </div>
             </motion.div>
           ))}

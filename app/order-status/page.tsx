@@ -1,6 +1,6 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import GrainOverlay from '@/components/ui/GrainOverlay';
 import { Package, Truck, CheckCircle, Clock, AlertCircle } from 'lucide-react';
@@ -18,10 +18,19 @@ interface OrderData {
 
 function OrderStatusContent() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const orderId = searchParams.get('id');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [order, setOrder] = useState<OrderData | null>(null);
+  const [searchInput, setSearchInput] = useState('');
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchInput.trim()) {
+      router.push(`/order-status?id=${searchInput.trim().toUpperCase()}`);
+    }
+  };
 
   useEffect(() => {
     if (!orderId) {
@@ -62,13 +71,34 @@ function OrderStatusContent() {
         <GrainOverlay opacity={30} />
         <div className="bg-white border border-black/10 p-12 shadow-2xl max-w-lg w-full text-center relative z-10">
           <AlertCircle className="w-16 h-16 mx-auto mb-6 text-red-500" />
-          <h1 className="font-heading text-4xl text-brand-text mb-4 uppercase tracking-tighter">INVALID TRACKING ID</h1>
+          <h1 className="font-heading text-4xl text-brand-text mb-4 uppercase tracking-tighter">
+            {error ? 'ORDER NOT FOUND' : 'TRACK YOUR ORDER'}
+          </h1>
           <p className="font-body text-brand-text/60 mb-8 uppercase text-xs tracking-[0.2em] leading-relaxed">
-            The tracking ID provided (&quot;{orderId || 'NULL'}&quot;) was not found in our regional deployment database. Please verify your invoice for the correct identifier.
+            {error 
+              ? `The tracking ID "${orderId}" was not found in our database.` 
+              : "Enter your Satya Computers tracking ID (e.g., SATYA-XXXXX) to check your deployment status."}
           </p>
-          <div className="flex flex-col gap-4">
-             <Link href="/" className="bg-black text-white py-4 font-heading text-sm tracking-widest hover:bg-[var(--color-brand-primary)] transition-all">
-               RETURN HUB
+          
+          <form onSubmit={handleSearch} className="flex flex-col gap-4">
+             <div className="relative group">
+               <input 
+                 type="text" 
+                 placeholder="SATYA-XXXXX" 
+                 value={searchInput}
+                 onChange={(e) => setSearchInput(e.target.value)}
+                 className="w-full bg-[#FAFAFA] border border-black/10 p-5 font-heading text-sm tracking-[0.2em] focus:outline-none focus:border-[var(--color-brand-primary)] focus:bg-white transition-all duration-300 placeholder:opacity-30"
+               />
+               <div className="absolute inset-0 border border-black/5 pointer-events-none group-hover:border-black/20 transition-all" />
+             </div>
+             <button type="submit" className="bg-black text-white py-5 font-heading text-xs tracking-[0.3em] font-black uppercase hover:bg-[var(--color-brand-primary)] transition-all shadow-xl shadow-black/10 hover:shadow-[0_10px_30px_rgba(241,90,36,0.3)]">
+               INITIATE TRACKING
+             </button>
+          </form>
+
+          <div className="mt-10 flex flex-col gap-4 border-t border-black/5 pt-8">
+             <Link href="/" className="text-brand-text/40 font-heading text-[10px] tracking-widest hover:text-black transition-all">
+               RETURN TO HUB
              </Link>
              <Link href="/contact" className="text-brand-text/40 font-heading text-[10px] tracking-widest hover:text-black transition-all">
                CONTACT ARCHITECTS

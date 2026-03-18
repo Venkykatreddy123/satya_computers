@@ -16,7 +16,8 @@ import {
   LogOut,
   ChevronRight,
   Shield,
-  User
+  User,
+  Globe
 } from 'lucide-react';
 
 const navItems = [
@@ -86,7 +87,16 @@ export default function Sidebar() {
       </nav>
 
       {/* Critical Actions */}
-      <div className="p-6">
+      <div className="p-6 space-y-3">
+        <Link
+          href="/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center gap-3 px-5 py-4 w-full rounded-2xl bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white transition-all duration-300 font-heading text-xs font-bold tracking-widest border border-white/5 hover:border-white/20"
+        >
+          <Globe size={18} />
+          <span>WEBSITE HOME</span>
+        </Link>
         <button
           title="Logout"
           onClick={() => signOut({ callbackUrl: '/admin/login' })}

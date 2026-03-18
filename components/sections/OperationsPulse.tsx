@@ -85,18 +85,18 @@ export default function OperationsPulse({ stats }: OperationsPulseProps) {
         
         {/* Performance Visualization (Mock) */}
         <div className="mt-20 p-1 bg-gradient-to-r from-white/5 via-white/10 to-white/5 rounded-[3rem]">
-           <div className="bg-[#0A1628] rounded-[2.9rem] p-12 flex flex-col lg:flex-row items-center justify-between gap-12 overflow-hidden relative">
+           <div className="bg-[#0A1628] rounded-[2.9rem] p-6 lg:p-12 flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 overflow-hidden relative">
               <div className="relative z-10">
                  <h3 className="text-3xl font-heading font-bold text-white mb-4 uppercase">Infrastructure Health</h3>
                  <p className="text-white/40 max-w-md mb-8">
                     Our edge nodes are synchronized across major technical hubs, ensuring minimal latency for bulk inventory synchronization.
                  </p>
-                 <div className="flex gap-4">
-                    <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl">
+                 <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex-1 sm:flex-none px-4 py-2 bg-white/5 border border-white/10 rounded-xl">
                        <p className="text-[10px] text-white/30 uppercase font-bold mb-1">Latency</p>
                        <p className="text-white font-mono font-bold">12ms</p>
                     </div>
-                    <div className="px-4 py-2 bg-white/5 border border-white/10 rounded-xl">
+                    <div className="flex-1 sm:flex-none px-4 py-2 bg-white/5 border border-white/10 rounded-xl">
                        <p className="text-[10px] text-white/30 uppercase font-bold mb-1">Packet Loss</p>
                        <p className="text-white font-mono font-bold">0.02%</p>
                     </div>

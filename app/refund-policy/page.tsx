@@ -3,28 +3,50 @@
 import { storeInfo } from '@/data/store-info';
 import { motion } from 'framer-motion';
 import GrainOverlay from '@/components/ui/GrainOverlay';
-import { ShieldAlert, CreditCard, BoxSelect, ClipboardCheck, Mail, Activity } from 'lucide-react';
+import { 
+  ShieldCheck, 
+  RotateCcw, 
+  Clock, 
+  FileCheck, 
+  AlertCircle, 
+  Banknote, 
+  RefreshCcw, 
+  ShieldAlert,
+  HelpCircle,
+  Mail,
+  MessageCircle
+} from 'lucide-react';
 
-const policies = [
+const sections = [
   {
-    icon: ShieldAlert,
-    title: "Eligibility Period",
-    content: "We provide a 7-day return window from the date of purchase. To be eligible, the item must be in its original condition, including all packaging, manuals, and accessories."
+    icon: RotateCcw,
+    title: "14-Day Return Policy",
+    content: "You may request a return or replacement within 14 days of receiving your order, provided the item is damaged, defective, significantly different from description, or has missing parts/accessories."
   },
   {
-    icon: BoxSelect,
-    title: "Restocking Fees",
-    content: "Items that have been opened but are not defective may be subject to a 15% restocking fee. This ensures we can maintain our high standards of refurbishment."
+    icon: ShieldCheck,
+    title: "Warranty Policy (Beyond 14 Days)",
+    content: "Warranty terms vary by purchase. Covers 1-year for manufacturing defects and 6-months for battery/adapter. Not covered: Physical or accidental damage caused by the user. Resolution may take up to 30 days."
   },
   {
-    icon: CreditCard,
-    title: "Processing Window",
-    content: "Once we verify the return, your refund will be initiated via the original payment method within 7–10 business days."
+    icon: FileCheck,
+    title: "Return Conditions",
+    content: "Product must be in original condition with all tags/packaging. Devices must be wiped of personal data. Items damaged while in your possession are not eligible. Restocking fees may apply for buyer's remorse."
   },
   {
-    icon: ClipboardCheck,
-    title: "Non-Returnable Items",
-    content: "Software, consumables (like thermal paste or cleaning kits), and hardware showing signs of physical damage or unauthorized modifications are non-returnable."
+    icon: Clock,
+    title: "How to Return",
+    content: "Contact Customer Support via the Contact Us page for approval. Unauthorized returns are not accepted. Technician visits may be arranged for inspection. Replacements dispatch within 24–48 hours after return receipt."
+  },
+  {
+    icon: Banknote,
+    title: "Refund Policy",
+    content: "Undelivered (RTO): Refund initiated within 24–48 hours of warehouse receipt. Delivered (Customer Return): Inspection within 24–48 hours, refund credited in 14 business days to original payment method or bank transfer."
+  },
+  {
+    icon: RefreshCcw,
+    title: "Buyback Program",
+    content: "Return the product anytime during the warranty period with a minimum 10% or 3% per month depreciation (whichever is greater), minus charges for any customer-induced damage."
   }
 ];
 
@@ -43,48 +65,111 @@ export default function RefundPolicyPage() {
         >
           <span className="font-heading text-xs tracking-[0.4em] text-[var(--color-brand-primary)] uppercase mb-4 block font-bold">COMMITMENT & TRUST</span>
           <h1 className="font-heading text-6xl md:text-9xl text-[#1A1A1A] leading-[0.85] mb-8 uppercase">
-            REFUND <br />
-            <span className="text-[var(--color-brand-primary)]">POLICIES.</span>
+            REFUND & <br />
+            <span className="text-[var(--color-brand-primary)]">RETURNS.</span>
           </h1>
           <p className="font-body text-black/50 uppercase tracking-widest text-sm">Last Revision: {lastUpdated}</p>
         </motion.div>
       </section>
 
-      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto grid lg:grid-cols-2 gap-20">
-        <div className="space-y-12">
-          {policies.map((p, i) => (
-            <motion.div 
-              key={p.title}
-              initial={{ opacity: 0, x: -10 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.1 }}
-              className="space-y-4"
-            >
-              <div className="flex items-center gap-4 group">
-                <div className="w-10 h-10 flex items-center justify-center border-[1.5px] border-black/5 text-[#1A1A1A] group-hover:bg-[var(--color-brand-primary)] group-hover:text-white transition-all bg-black/[0.02]">
-                  <p.icon size={20} strokeWidth={1.5} />
-                </div>
-                <h3 className="font-heading text-3xl text-[#1A1A1A] uppercase leading-none">{p.title}</h3>
-              </div>
-              <p className="font-body text-sm text-black/60 leading-relaxed tracking-wider border-l-2 border-black/5 pl-6 ml-5">{p.content}</p>
-            </motion.div>
-          ))}
-        </div>
+      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-3 gap-16">
+          <div className="lg:col-span-2 space-y-20">
+            {/* Quick Summary Grid */}
+            <div className="grid sm:grid-cols-2 gap-8">
+              {sections.map((s, i) => (
+                <motion.div 
+                  key={s.title}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="p-8 border border-black/5 bg-[#FAFAFA] hover:border-[var(--color-brand-primary)] transition-colors group"
+                >
+                  <s.icon size={32} strokeWidth={1} className="text-[var(--color-brand-primary)] mb-6 group-hover:scale-110 transition-transform" />
+                  <h3 className="font-heading text-xl text-black uppercase mb-4 tracking-tight">{s.title}</h3>
+                  <p className="font-body text-xs text-black/50 leading-relaxed tracking-wider uppercase">{s.content}</p>
+                </motion.div>
+              ))}
+            </div>
 
-        <div className="flex flex-col justify-center bg-[#F1F1F1] p-12 border-[1px] border-black/5 h-fit text-black/70">
-          <h2 className="font-heading text-4xl text-[#1A1A1A] mb-8 uppercase leading-[0.9]">Warranty <br /><span className="text-[var(--color-brand-primary)]">Assurance.</span></h2>
-          <div className="prose prose-slate max-w-none font-body text-xs uppercase tracking-[0.15em] leading-[2.2]">
-            <p>
-              Beyond our standard refund window, every enterprise workstation includes our <strong>3-month limited hardware warranty</strong>. This covers manufacturing defects and hardware failure under normal usage conditions.
-            </p>
-            <p className="mt-6">
-              To initiate a claim, please have your original invoice number (starting with <strong>ORD-</strong>) and a brief description of the issue. Our tech hub in Ameerpet is available for priority onsite diagnostics.
-            </p>
-            <div className="pt-8 mt-8 border-t border-black/10">
-              <h4 className="font-heading text-xl text-black mb-3 uppercase">Contact Channel</h4>
-              <p>Email: <span className="text-[var(--color-brand-primary)]">support@satyacomputers.topiko.com</span></p>
-              <p>Phone: +91 {storeInfo.phone}</p>
+            {/* Detailed Policy Sections */}
+            <div className="space-y-16 pt-10 border-t border-black/5">
+              
+              {/* Refund Deductions */}
+              <div className="space-y-6">
+                <h2 className="font-heading text-4xl text-black uppercase tracking-tight flex items-center gap-4">
+                  <AlertCircle size={28} className="text-[var(--color-brand-primary)]" />
+                  Refund Deductions
+                </h2>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  <div className="p-6 bg-black text-white">
+                    <h4 className="font-heading text-lg mb-2 uppercase text-[var(--color-brand-primary)]">Defective Products</h4>
+                    <p className="font-body text-xs text-white/50 tracking-widest leading-relaxed">No additional deductions, apart from usage-based depreciation if applicable after the 14-day window.</p>
+                  </div>
+                  <div className="p-6 bg-[#FAFAFA] border border-black/5">
+                    <h4 className="font-heading text-lg mb-2 uppercase">Non-Defective / Changed Mind</h4>
+                    <p className="font-body text-xs text-black/50 tracking-widest leading-relaxed">A minimum 10% restocking fee or 3% per month (whichever is greater) will be deducted from the refund.</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Non-Returnable */}
+              <div className="space-y-6">
+                <h2 className="font-heading text-4xl text-black uppercase tracking-tight flex items-center gap-4">
+                  <ShieldAlert size={28} className="text-red-500" />
+                  Non-Returnable Items
+                </h2>
+                <ul className="grid sm:grid-cols-3 gap-3 list-none p-0">
+                  {['Not in original condition', 'Customized products', 'Physical damage by user'].map((item, i) => (
+                    <li key={i} className="font-body text-[10px] text-black/40 uppercase tracking-[0.2em] border border-black/5 p-4 flex items-center gap-3">
+                      <span className="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Our Rights */}
+              <div className="p-10 bg-[var(--color-brand-primary)] text-white">
+                <h2 className="font-heading text-3xl mb-6 uppercase tracking-tight italic">Reserved Rights</h2>
+                <div className="font-body text-xs uppercase tracking-[0.15em] leading-[2.2] space-y-4 text-white/80">
+                  <p>• Satya Computers reserves the right to decline returns not meeting stated conditions.</p>
+                  <p>• We limit returns from accounts showing high return frequency or suspicious activity.</p>
+                  <p>• Final decisions regarding eligibility for replacements rest solely with our technicians.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <div className="lg:col-span-1">
+            <div className="bg-[#1A1A1A] text-white p-12 h-fit border-[1px] border-white/5 relative overflow-hidden group sticky top-32">
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-brand-primary)]/10 to-transparent opacity-10" />
+              <div className="relative z-10 space-y-8">
+                <h2 className="font-heading text-4xl mb-2 uppercase leading-[0.9]">Need <br /><span className="text-[var(--color-brand-primary)]">Help?</span></h2>
+                <div className="prose prose-invert max-w-none font-body text-xs uppercase tracking-[0.1em] leading-[2.4] text-white/50">
+                  <p>
+                    If you have questions regarding return eligibility or your specific warranty tier, please connect with us.
+                  </p>
+                  <div className="pt-8 mt-8 border-t border-white/10 space-y-6">
+                    <a href={`mailto:${storeInfo.email}`} className="flex items-center gap-4 group/item no-underline">
+                      <Mail size={18} className="text-[var(--color-brand-primary)] group-hover/item:scale-110 transition-transform" />
+                      <div>
+                        <h4 className="font-heading text-sm text-white uppercase mb-0.5">Email Support</h4>
+                        <p className="text-white/40 lowercase text-[10px]">{storeInfo.email}</p>
+                      </div>
+                    </a>
+                    <a href={`https://wa.me/${storeInfo.whatsapp}`} className="flex items-center gap-4 group/item no-underline">
+                      <MessageCircle size={18} className="text-green-500 group-hover/item:scale-110 transition-transform" />
+                      <div>
+                        <h4 className="font-heading text-sm text-white uppercase mb-0.5">WhatsApp Chat</h4>
+                        <p className="text-white/40 text-[10px]">MON–SAT, 10 AM – 7 PM</p>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

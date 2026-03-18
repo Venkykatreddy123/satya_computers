@@ -77,7 +77,20 @@ export default function ContactPage() {
                 <h3 className="font-heading text-lg text-[var(--color-brand-accent)] tracking-widest">VISIT STORE</h3>
               </div>
               <div className="h-[2px] w-8 bg-[var(--color-brand-accent)] mb-4 group-hover:w-full transition-all duration-500 ease-out" />
-              <p className="font-body text-brand-text-muted leading-relaxed text-sm">{storeInfo.address}</p>
+              <a
+                href="https://www.google.com/maps/dir/17.481728,78.3941632/Satya+computers+%5Blaptop+service+center%5D,+135%2FA+shop+No;+1+Mithra+hills,+Nizampet+Rd,+Hyder+Nagar,+Hyderabad,+Telangana+500085/@17.4934742,78.3760015,15z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x3bcb93e1bf18eaf9:0xf52308426cc0932f!2m2!1d78.3780054!2d17.5063019?entry=ttu&g_ep=EgoyMDI2MDMxNS4wIKXMDSoASAFQAw%3D%3D"
+                target="_blank"
+                rel="noopener noreferrer"
+                id="contact-maps-link"
+                className="block no-underline"
+              >
+                <p className="font-body text-brand-text-muted leading-relaxed text-sm group-hover:text-[var(--color-brand-accent)] transition-colors duration-200">
+                  {storeInfo.address}
+                </p>
+                <span className="block text-[10px] text-[var(--color-brand-accent)]/60 group-hover:text-[var(--color-brand-accent)] mt-2 font-heading tracking-widest uppercase transition-colors duration-200">
+                  Get Directions →
+                </span>
+              </a>
             </div>
           </motion.div>
 
@@ -109,8 +122,17 @@ export default function ContactPage() {
                 <h3 className="font-heading text-lg text-[var(--color-brand-primary)] tracking-widest">CALL US</h3>
               </div>
               <div className="h-[2px] w-8 bg-[var(--color-brand-primary)] mb-4 group-hover:w-full transition-all duration-500 ease-out" />
-              <p className="font-body text-brand-text text-xl font-semibold">+91 {storeInfo.phone}</p>
+              <a
+                href={`tel:+91${storeInfo.phone}`}
+                id="contact-call-link"
+                className="group/call flex items-center gap-3 no-underline"
+              >
+                <p className="font-body text-brand-text text-xl font-semibold group-hover/call:text-[var(--color-brand-primary)] transition-colors duration-200">
+                  +91 {storeInfo.phone}
+                </p>
+              </a>
               <p className="font-body text-brand-text/40 mt-1.5 text-xs tracking-widest">MON–SAT: 10AM – 8PM</p>
+              <p className="font-body text-[var(--color-brand-primary)]/60 mt-1 text-[10px] tracking-widest font-heading uppercase">Tap to Call →</p>
             </div>
           </motion.div>
 

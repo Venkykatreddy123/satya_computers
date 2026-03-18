@@ -1,0 +1,2 @@
+Images Dir is: D:\Satya_Computers\public\products
+CWD: D:\Satya_Computers

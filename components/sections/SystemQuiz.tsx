@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Laptop, Cpu, MonitorPlay, Check, Loader2, ArrowRight, BrainCircuit, BarChart, Server } from 'lucide-react';
 import Link from 'next/link';
@@ -13,6 +13,17 @@ export default function SystemQuiz() {
   const [step, setStep] = useState<QuizStep>('workload');
   const [workload, setWorkload] = useState('');
   const [budget, setBudget] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  
+  if (!mounted) return (
+    <div className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto min-h-[600px] flex items-center justify-center">
+       <div className="w-10 h-10 border-4 border-black border-t-[var(--color-brand-primary)] animate-spin" />
+    </div>
+  );
   
   const getRecommendation = () => {
     let slug = 'lenovo-thinkpad-t470'; // Default
@@ -145,7 +156,7 @@ export default function SystemQuiz() {
                      ].map(w => (
                        <button 
                          key={w.id}
-                         onClick={() => handleWorkloadSelect(w.id)}
+                         type='button' suppressHydrationWarning onClick={() => handleWorkloadSelect(w.id)}
                          className="group p-6 border-2 border-black/5 hover:border-black bg-white text-left transition-all duration-300 relative overflow-hidden shadow-sm"
                        >
                          <div className="relative z-10">
@@ -181,7 +192,7 @@ export default function SystemQuiz() {
                      ].map(b => (
                        <button 
                          key={b.id}
-                         onClick={() => handleBudgetSelect(b.id)}
+                         type='button' suppressHydrationWarning onClick={() => handleBudgetSelect(b.id)}
                          className="group p-6 border-2 border-black/5 hover:border-black bg-white text-left transition-all duration-300 flex items-center gap-6"
                        >
                          <div className="w-12 h-12 flex items-center justify-center bg-gray-50 border border-black/5 rounded-full group-hover:bg-[var(--color-brand-primary)] group-hover:text-white transition-all">
@@ -196,7 +207,12 @@ export default function SystemQuiz() {
                      ))}
                   </div>
                   
-                  <button onClick={() => setStep('workload')} className="mt-8 font-heading text-[10px] tracking-widest uppercase text-black/30 hover:text-black transition-colors">
+                  <button 
+                    type="button"
+                    suppressHydrationWarning
+                    onClick={() => setStep('workload')} 
+                    className="mt-8 font-heading text-[10px] tracking-widest uppercase text-black/30 hover:text-black transition-colors"
+                  >
                     ← Change Workload
                   </button>
                 </motion.div>
@@ -273,11 +289,20 @@ export default function SystemQuiz() {
 
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Link href={`/products/${recommendedProduct.slug}`} className="flex-1">
-                      <button className="w-full bg-black text-white hover:bg-[var(--color-brand-primary)] transition-all py-5 font-heading text-sm tracking-widest uppercase flex justify-center items-center gap-3 active:scale-[0.98]">
+                      <button 
+                        type="button"
+                        suppressHydrationWarning
+                        className="w-full bg-black text-white hover:bg-[var(--color-brand-primary)] transition-all py-5 font-heading text-sm tracking-widest uppercase flex justify-center items-center gap-3 active:scale-[0.98]"
+                      >
                         INITIALIZE DEPLOYMENT <ArrowRight className="w-4 h-4" />
                       </button>
                     </Link>
-                    <button onClick={overrideReset} className="px-10 py-5 border-2 border-black hover:bg-black hover:text-white text-black font-heading text-sm tracking-widest uppercase transition-all active:scale-[0.98]">
+                    <button 
+                      type="button"
+                      suppressHydrationWarning
+                      onClick={overrideReset} 
+                      className="px-10 py-5 border-2 border-black hover:bg-black hover:text-white text-black font-heading text-sm tracking-widest uppercase transition-all active:scale-[0.98]"
+                    >
                       RE-SCAN
                     </button>
                   </div>
