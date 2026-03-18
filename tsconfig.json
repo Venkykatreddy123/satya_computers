@@ -24,5 +24,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "tmp", "*.ts.bak", "check_db.ts", "debug_libsql.ts", "seed_db.ts", "test_env.ts"]
 }
