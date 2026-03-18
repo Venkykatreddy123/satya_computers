@@ -10,9 +10,6 @@ import InteractiveFAQ from '@/components/sections/InteractiveFAQ';
 import EliteSelection from '@/components/sections/EliteSelection';
 import InternalComponents from '@/components/sections/InternalComponents';
 import HotOffers from '@/components/sections/HotOffers';
-import OperationsPulse from '@/components/sections/OperationsPulse';
-import LiveDeployments from '@/components/sections/LiveDeployments';
-import AdminTeam from '@/components/sections/AdminTeam';
 import SystemQuiz from '@/components/sections/SystemQuiz';
 import EcoImpact from '@/components/sections/EcoImpact';
 import { 
@@ -21,8 +18,6 @@ import {
   getActiveOffers, 
   getCompanyStats, 
   getPartners, 
-  getTeam, 
-  getRecentOrders,
   getCategoryStats
 } from '@/lib/cms';
 
@@ -35,8 +30,6 @@ export default async function Home() {
     activeOffers, 
     companyStats, 
     partners, 
-    team, 
-    recentOrders,
     categoryStats
   ] = await Promise.all([
     getFeaturedProducts(),
@@ -44,8 +37,6 @@ export default async function Home() {
     getActiveOffers(),
     getCompanyStats(),
     getPartners(),
-    getTeam(),
-    getRecentOrders(),
     getCategoryStats()
   ]);
 
@@ -60,10 +51,7 @@ export default async function Home() {
       <CategoryGrid counts={categoryStats} />
       <EliteSelection products={featuredProducts} />
       <HotOffers offers={activeOffers} />
-      <OperationsPulse stats={companyStats} />
-      <LiveDeployments orders={recentOrders} />
       <InternalComponents />
-      <AdminTeam team={team} />
 
       <SystemQuiz />
       <TestingProcess />
