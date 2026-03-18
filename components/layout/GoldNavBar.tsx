@@ -131,14 +131,14 @@ export default function GoldNavBar() {
       {/* Mobile Drawer */}
       <AnimatePresence>
         {mounted && mobileOpen && (
-          <div className="md:hidden fixed inset-0 z-[1000]">
+          <div className="fixed inset-0 z-[9999] md:hidden">
             {/* Backdrop */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMobileOpen(false)}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm"
+              className="fixed inset-0 bg-black/80 backdrop-blur-md"
             />
 
             {/* Sidebar */}
@@ -146,30 +146,30 @@ export default function GoldNavBar() {
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 h-full w-[280px] bg-white shadow-2xl flex flex-col z-[1001]"
+              transition={{ type: 'spring', damping: 30, stiffness: 200 }}
+              className="fixed top-0 right-0 h-full w-full sm:w-[350px] bg-white shadow-2xl flex flex-col pointer-events-auto"
             >
-              <div className="p-6 border-b border-black/10 flex items-center justify-between">
-                <span className="font-heading text-xl tracking-widest text-brand-text">
+              <div className="p-8 border-b border-black/5 flex items-center justify-between">
+                <span className="font-heading text-2xl tracking-[0.2em] text-black">
                   SATYA<span className="text-[var(--color-brand-primary)]">MENU</span>
                 </span>
                 <button
                   onClick={() => setMobileOpen(false)}
-                  className="w-10 h-10 flex items-center justify-center border-2 border-black/10 rounded-full text-black bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer"
+                  className="w-12 h-12 flex items-center justify-center border-2 border-black/5 rounded-full text-black hover:bg-gray-100 transition-colors"
                   aria-label="Close menu"
                 >
-                  <X size={20} />
+                  <X size={24} />
                 </button>
               </div>
 
-              <nav className="flex-1 px-6 py-8 flex flex-col gap-2 overflow-y-auto">
+              <nav className="flex-1 px-8 py-12 flex flex-col gap-6 overflow-y-auto">
                 {NAV_LINKS.map((item) => (
                   <Link
                     key={item.label}
                     href={item.href}
                     onClick={() => setMobileOpen(false)}
-                    className={`font-heading text-2xl py-3 border-b border-black/5 tracking-widest ${
-                      pathname === item.href ? 'text-[var(--color-brand-primary)]' : 'text-brand-text'
+                    className={`font-heading text-4xl uppercase tracking-tighter ${
+                      pathname === item.href ? 'text-[var(--color-brand-primary)]' : 'text-black'
                     }`}
                   >
                     {item.label}
@@ -177,13 +177,19 @@ export default function GoldNavBar() {
                 ))}
               </nav>
 
-              <div className="p-6 border-t border-black/10 flex gap-4 mt-auto bg-gray-50/50">
-                <Link href="/account" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 font-body text-sm text-brand-text/60 hover:text-brand-text transition-colors">
-                  <User size={18} /> Account
-                </Link>
-                <Link href="/cart" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 font-body text-sm text-brand-text/60 hover:text-brand-text transition-colors">
-                  <ShoppingCart size={18} /> Cart ({itemCount})
-                </Link>
+              <div className="p-8 border-t border-black/5 flex flex-col gap-6 bg-gray-50/50">
+                <div className="flex gap-8">
+                   <Link href="/account" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 font-heading text-xs tracking-widest text-black/40 hover:text-black transition-colors uppercase font-bold">
+                     <User size={16} /> Account
+                   </Link>
+                   <Link href="/cart" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 font-heading text-xs tracking-widest text-black/40 hover:text-black transition-colors uppercase font-bold">
+                     <ShoppingCart size={16} /> Cart ({itemCount})
+                   </Link>
+                </div>
+                
+                <div className="text-[10px] font-heading tracking-[0.3em] font-black text-black opacity-10 uppercase mt-4">
+                  POWERED BY SATYA_TECH
+                </div>
               </div>
             </motion.div>
           </div>

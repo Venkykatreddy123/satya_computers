@@ -56,15 +56,15 @@ export default function B2BTier() {
 
           {/* Calculator Right */}
           <div className="relative">
-             <div className="bg-white text-black p-10 md:p-14 shadow-[40px_40px_0_rgba(241,90,36,0.2)] border-2 border-black relative z-10">
-                <div className="flex items-center justify-between mb-10 border-b-2 border-black pb-6">
-                   <h3 className="font-heading text-2xl uppercase tracking-tighter">VOLUME ESTIMATOR</h3>
+             <div className="bg-white text-black p-8 md:p-14 shadow-[20px_20px_0_rgba(241,90,36,0.2)] md:shadow-[40px_40px_0_rgba(241,90,36,0.2)] border-2 border-black relative z-10">
+                <div className="flex items-center justify-between mb-8 border-b-2 border-black pb-6">
+                   <h3 className="font-heading text-xl md:text-2xl uppercase tracking-tighter">VOLUME ESTIMATOR</h3>
                    <Calculator className="w-6 h-6 text-[var(--color-brand-primary)]" />
                 </div>
 
-                <div className="space-y-8">
+                <div className="space-y-6 md:space-y-8">
                    <div className="space-y-4">
-                      <div className="flex justify-between font-heading text-[11px] tracking-widest uppercase">
+                      <div className="flex justify-between font-heading text-[10px] md:text-[11px] tracking-widest uppercase">
                         <span>UNITS REQUIRED</span>
                         <span className="text-[var(--color-brand-primary)] font-black">{quantity} SYSTEMS</span>
                       </div>
@@ -77,54 +77,73 @@ export default function B2BTier() {
                         className="w-full h-1.5 bg-gray-100 appearance-none cursor-pointer accent-black"
                         aria-label="Quantity of systems"
                       />
-                      <div className="flex justify-between text-[9px] text-black/40 font-bold">
+                      <div className="flex justify-between text-[8px] md:text-[9px] text-black/40 font-bold uppercase tracking-tighter">
                          <span>SINGLE NODE</span>
                          <span>FLEET (100+)</span>
                       </div>
                    </div>
 
                    <div className="bg-gray-50 p-6 border border-black/5 space-y-4">
-                      <div className="flex justify-between text-xs">
-                         <span className="text-black/50 font-heading">BASE VALUE</span>
-                         <span className="font-body font-black">₹{(unitPrice * quantity).toLocaleString('en-IN')}</span>
+                      <div className="flex justify-between text-xs font-bold">
+                         <span className="text-black/50 font-heading tracking-widest">BASE VALUE</span>
+                         <span className="font-body font-black italic">₹{(unitPrice * quantity).toLocaleString('en-IN')}</span>
                       </div>
-                      <div className="flex justify-between text-xs items-center">
-                         <span className="text-black/50 font-heading">VOLUME REBATE</span>
-                         <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded font-black">{(discount * 100).toFixed(0)}% OFF</span>
+                      <div className="flex justify-between text-xs items-center font-bold">
+                         <span className="text-black/50 font-heading tracking-widest">VOLUME REBATE</span>
+                         <span className="bg-emerald-50 text-emerald-600 px-2 py-0.5 border border-emerald-100 font-black">{(discount * 100).toFixed(0)}% OFF</span>
                       </div>
                       <div className="h-px bg-black/10" />
                       <div className="flex justify-between items-end">
-                         <span className="font-heading text-xs uppercase tracking-widest">FINAL QUOTE</span>
-                         <span className="font-body text-4xl font-black text-black">₹{totalPrice.toLocaleString('en-IN')}</span>
+                         <span className="font-heading text-xs uppercase tracking-widest font-black">FINAL QUOTE</span>
+                         <span className="font-body text-3xl md:text-4xl font-black text-black leading-none">₹{totalPrice.toLocaleString('en-IN')}</span>
                       </div>
                    </div>
 
                    <button 
                     onClick={() => setShowQuote(true)}
-                    className="w-full bg-black text-white py-5 font-heading text-sm tracking-widest uppercase hover:bg-[var(--color-brand-primary)] transition-all flex items-center justify-center gap-3 relative overflow-hidden group"
+                    className="w-full bg-black text-white py-4 md:py-5 font-heading text-sm tracking-widest uppercase hover:bg-[var(--color-brand-primary)] transition-all flex items-center justify-center gap-3 group"
                    >
                      <span>SUBMIT FOR EVALUATION</span>
                      <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                    </button>
                 </div>
                 
-                {/* Success Overlay */}
+                {/* Success Overlay with Options */}
                 <AnimatePresence>
                   {showQuote && (
                      <motion.div 
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.9 }}
-                        className="absolute inset-0 z-20 bg-white flex flex-col items-center justify-center p-12 text-center"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="absolute inset-0 z-20 bg-white flex flex-col items-center justify-center p-6 md:p-12 text-center"
                      >
-                        <div className="w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center mb-6 shadow-xl shadow-green-500/20">
-                           <Check size={32} />
+                        <div className="w-12 h-12 bg-emerald-500 text-white rounded-full flex items-center justify-center mb-6 shadow-xl shadow-emerald-500/10">
+                           <Check size={24} />
                         </div>
-                        <h4 className="font-heading text-2xl mb-4 uppercase">REQUEST LOGGED</h4>
-                        <p className="font-body text-sm text-black/50 mb-10 leading-relaxed">
-                          Your configuration for <strong>{quantity} units</strong> has been transmitted to our corporate desk. Reaching out within <span className="text-black font-black underline decoration-[var(--color-brand-primary)]">2 Business Hours</span>.
+                        <h4 className="font-heading text-xl md:text-2xl mb-4 uppercase tracking-tighter">REQUEST GENERATED</h4>
+                        <p className="font-body text-xs md:text-sm text-black/50 mb-8 leading-relaxed px-4">
+                          Select your preferred transmission method to notify our corporate desk.
                         </p>
-                        <button onClick={() => setShowQuote(false)} className="font-heading text-[10px] tracking-[0.3em] uppercase text-black/30 hover:text-black transition-colors underline decoration-black/10 underline-offset-4">
+                        
+                        <div className="w-full space-y-3">
+                           <a 
+                             href={`https://wa.me/919640272323?text=${encodeURIComponent(`Hi Satya Computers, I am interested in a bulk order of ${quantity} systems. My estimated quote is ₹${totalPrice.toLocaleString('en-IN')}. Please contact me.`)}`}
+                             target="_blank"
+                             rel="noopener noreferrer"
+                             className="w-full flex items-center justify-center gap-2 bg-[#25D366] text-white py-4 font-heading text-[10px] tracking-[0.2em] font-black uppercase hover:brightness-110 transition-all rounded-sm"
+                           >
+                             SEND VIA WHATSAPP
+                           </a>
+                           
+                           <a 
+                             href={`mailto:info@satyacomputers.in?subject=B2B Quote Request - ${quantity} Units&body=${encodeURIComponent(`Hi Satya Computers,\n\nI am interested in a bulk order of ${quantity} systems.\n\nEstimated Quote: ₹${totalPrice.toLocaleString('en-IN')}\n\nPlease contact me with further details.\n\nQuantity: ${quantity}`)}`}
+                             className="w-full flex items-center justify-center gap-2 bg-black text-white py-4 font-heading text-[10px] tracking-[0.2em] font-black uppercase hover:bg-[var(--color-brand-primary)] transition-all rounded-sm"
+                           >
+                             SEND VIA EMAIL
+                           </a>
+                        </div>
+
+                        <button onClick={() => setShowQuote(false)} className="mt-8 font-heading text-[9px] tracking-[0.3em] uppercase text-black/30 hover:text-black transition-colors underline underline-offset-4">
                           ← Back to Configurator
                         </button>
                      </motion.div>
@@ -133,7 +152,7 @@ export default function B2BTier() {
              </div>
 
              {/* Background Brutalist Shapes */}
-             <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-[var(--color-brand-primary)] -z-0" />
+             <div className="absolute -bottom-6 -right-6 md:-bottom-10 md:-right-10 w-24 h-24 md:w-40 md:h-40 bg-[var(--color-brand-primary)] -z-0" />
           </div>
         </div>
       </div>
