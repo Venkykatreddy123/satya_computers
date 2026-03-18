@@ -38,6 +38,22 @@ const getInitialMessage = (): Message => ({
   time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
 });
 
+const INTERNAL_PARTS = [
+
+  { name: "Enterprise SSDs", specs: "NVMe Gen4 | 7450 MB/s", category: "Storage" },
+  { name: "DDR4/DDR5 RAM", specs: "3200MHz - 5600MHz", category: "Memory" },
+  { name: "Original Batteries", specs: "OEM Certified | High-Cycle", category: "Power" },
+  { name: "Internal Cooling", specs: "Dual-Fan | Liquid Metal", category: "Thermal" }
+];
+
+const SITE_SECTIONS = [
+  { keywords: ['product', 'laptop', 'inventory', 'shop'], label: 'Explore Products', url: '/products', description: 'Our curated collection of elite workstations.' },
+  { keywords: ['service', 'repair', 'fix', 'broken', 'hardware'], label: 'Repair Services', url: '/solutions', description: 'Professional chip-level hardware diagnostics.' },
+  { keywords: ['offer', 'deal', 'discount', 'sale'], label: 'View Offers', url: '/products', description: 'Limited-time deals on enterprise gear.' },
+  { keywords: ['contact', 'location', 'where', 'address', 'call'], label: 'Contact Us', url: '/contact', description: 'Visit our Hyderabad studio or get in touch.' },
+  { keywords: ['about', 'who', 'company', 'satya'], label: 'About Satya', url: '/about', description: 'Our mission and professional history.' }
+];
+
 export default function WhatsAppWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([getInitialMessage()]);
@@ -68,62 +84,86 @@ export default function WhatsAppWidget() {
       links,
       time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
-    setMessages(prev => [...prev, newMessage]);
+    setMessages((prev: Message[]) => [...prev, newMessage]);
   };
 
   const botResponse = (userText: string) => {
     setIsTyping(true);
     
+    // Simulate natural processing delay
+    const processingDelay = Math.random() * 500 + 1000;
+
     setTimeout(() => {
-      let response = "I'm not exactly sure about that. Would you like to speak with our tech experts directly? Call us at +91 8309178589!";
-      let responseLinks: { label: string; url: string }[] = [];
+      let response = "I apologize, but my diagnostic parameters do not currently cover that specific request. However, our technical architects are available for a deep-dive consultation.";
+      let responseLinks: { label: string; url: string }[] = [{ label: 'Request Technical Audit', url: '/contact' }];
       
       const lowerText = userText.toLowerCase().trim();
 
-      // Product/Brand Logic
+      // 1. High-Precision Internal Components Analysis
+      const foundParts = INTERNAL_PARTS.filter(part => 
+        lowerText.includes(part.name.toLowerCase()) || 
+        lowerText.includes(part.category.toLowerCase()) ||
+        lowerText.includes('inside') || lowerText.includes('open') || lowerText.includes('component') || lowerText.includes('part') || lowerText.includes('hardware')
+      );
+
+      if (foundParts.length > 0 && (lowerText.includes('part') || lowerText.includes('hardware') || lowerText.includes('inventory') || lowerText.includes('list'))) {
+        response = "Satya Computers maintains a sterile, enterprise-grade inventory of critical silicon and memory components. Our current verified stock includes:";
+        const partList = foundParts.map(p => `\n• ${p.name.toUpperCase()}: ${p.specs}`).join('');
+        response += partList + "\n\nWould you like to initiate an acquisition request for these components?";
+        responseLinks = [{ label: 'Acquisition Portal', url: '/contact' }];
+      }
+      
+      // 2. Strategic Site Navigation
+      const foundSection = SITE_SECTIONS.find(section => 
+        section.keywords.some(k => lowerText.includes(k))
+      );
+
+      if (foundSection && !lowerText.includes('part') && !lowerText.includes('hardware')) {
+        response = `Acknowledged. ${foundSection.description} I am redirecting your interface to the appropriate protocol.`;
+        responseLinks = [{ label: `Execute: ${foundSection.label}`, url: foundSection.url }];
+      }
+
+      // 3. Catalog & Inventory Intelligence
       const foundProducts = products.filter(p => 
         lowerText.includes(p.brand.toLowerCase()) || 
         lowerText.includes(p.name.toLowerCase()) ||
         lowerText.includes(p.category?.toLowerCase() || '') ||
         (p.specs.processor && lowerText.includes(p.specs.processor.toLowerCase()))
-      ).slice(0, 3); // Return top 3 matches
+      ).slice(0, 3);
 
-      if (foundProducts.length > 0) {
-        response = `I found some excellent ${foundProducts[0].brand || 'hardware'} options matching your request. Here are the top matches:`;
+      if (foundProducts.length > 0 && foundParts.length === 0 && !lowerText.includes('repair')) {
+        response = `My internal registry has identified ${foundProducts.length} elite-tier configurations matching your requirements. We recommend the following workstations for high-uptime environments:`;
         responseLinks = foundProducts.map(p => ({
-          label: `View ${p.name}`,
+          label: `UNITS: ${p.brand.toUpperCase()} - ${p.name.toUpperCase()}`,
           url: `/products/${p.slug}`
         }));
       }
-      // Greetings
-      else if (lowerText.match(/^(hi|hello|hey|hola|greetings)/)) {
-        response = "Hello! I'm the Satya Computers AI assistant. How can I help you with your tech requirements today?";
+
+      // 4. Professional Repair & Support Protocols
+      if (lowerText.includes('repair') || lowerText.includes('fix') || lowerText.includes('broken') || lowerText.includes('service') || lowerText.includes('dead')) {
+        response = "Satya Computers operates a Level-4 Hardware Diagnostic Studio in Ameerpet. We specialize in chip-level circuit repair, liquid damage remediation, and GPU re-balling with 99.8% precision.";
+        responseLinks = [
+          { label: 'Repair Manifesto', url: '/solutions' },
+          { label: 'Schedule Diagnostic', url: '/contact' }
+        ];
+      }
+
+      // 5. Elite Greeting & Protocol Initiation
+      if (lowerText.match(/^(hi|hello|hey|hola|greetings|start|menu|options)/)) {
+        response = "SYSTEM ONLINE. I am the Satya AI Concierge, optimized for the Stone & Gold administrative framework. I am here to facilitate your elite hardware requirements, precision repairs, and enterprise sourcing. \n\nWhat protocol shall we initialize?";
+        responseLinks = [
+          { label: 'INVENTORY CATALOG', url: '/products' },
+          { label: 'REPAIR SOLUTIONS', url: '/solutions' },
+          { label: 'STUDIO LOCATION', url: '/contact' }
+        ];
       } 
-      // Address
-      else if (lowerText.includes('where') || lowerText.includes('location') || lowerText.includes('address')) {
-        response = "We are located at: 27, Satyam Theatre Rd, Ameerpet, Hyderabad. Come visit our studio!";
-        responseLinks = [{ label: 'View Map', url: '/contact' }];
-      }
-      // Repairs
-      else if (lowerText.includes('repair') || lowerText.includes('fix') || lowerText.includes('screen') || lowerText.includes('broken')) {
-        response = "We specialize in professional chip-level hardware repairs. Bring your device to our store in Ameerpet!";
-        responseLinks = [{ label: 'Contact Us', url: '/contact' }];
-      }
-      // Contact
-      else if (lowerText.includes('contact') || lowerText.includes('call') || lowerText.includes('number')) {
-        response = "You can reach us at +91 8309178589. We are available 10 AM to 8 PM.";
-        responseLinks = [{ label: 'Visit Contact Page', url: '/contact' }];
-      }
-      // General Laptop Advice
-      else if (lowerText.includes('gaming') || lowerText.includes('student') || lowerText.includes('work') || lowerText.includes('laptop')) {
-        response = "We have high-performance laptops suitable for gaming, students, and professionals! Check our catalog for the exact specifications you need.";
-        responseLinks = [{ label: 'Browse PCs', url: '/products' }];
-      }
 
       addMessage('bot', response, responseLinks);
       setIsTyping(false);
-    }, 1000);
+    }, processingDelay);
   };
+
+
 
   const handleSend = (e?: React.FormEvent) => {
     if (e) e.preventDefault();

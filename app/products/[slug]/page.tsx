@@ -4,12 +4,52 @@ import Link from 'next/link';
 import { getProductBySlug, getRecommendedProducts, enrichProduct } from '@/data/products';
 import GrainOverlay from '@/components/ui/GrainOverlay';
 import ProductImageGallery from '@/components/store/ProductImageGallery';
+import { libsql as client } from '@/lib/prisma';
 import AddToCartButton from '@/components/store/AddToCartButton';
+import BuyNowButton from '@/components/store/BuyNowButton';
 import TrustBadges from '@/components/store/TrustBadges';
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const raw = getProductBySlug(slug);
+  
+  // 1. Try static
+  let raw = getProductBySlug(slug);
+  let isFromDb = false;
+
+  // 2. Try DB if not found
+  if (!raw) {
+    try {
+      const result = await client.execute({
+        sql: 'SELECT * FROM "Product" WHERE id = ? LIMIT 1',
+        args: [slug]
+      });
+      
+      if (result.rows.length > 0) {
+        const row: any = result.rows[0];
+        raw = {
+          id: row.id,
+          name: row.name,
+          slug: row.id,
+          brand: row.brand,
+          price: row.price,
+          originalPrice: row.price * 1.2,
+          image: row.image || '/products/dell_laptop_premium.png',
+          description: row.description || 'Professional workstation optimized for enterprise performance.',
+          badge: row.isFeatured ? 'HOT' : undefined,
+          specs: {
+            processor: row.processor || 'Intel Core i5',
+            ram: row.ram || '8GB',
+            storage: row.storage || '256GB SSD',
+            screen: row.display || '14" FHD'
+          }
+        };
+        isFromDb = true;
+      }
+    } catch (e) {
+      console.error('DB Product Fetch Error:', e);
+    }
+  }
+
   if (!raw) notFound();
 
   const product = enrichProduct(raw);
@@ -111,8 +151,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             )}
 
             {/* CTA */}
-            <div className="flex gap-4 border-t border-black/8 pt-6 mt-auto">
+            <div className="flex flex-col sm:flex-row gap-4 border-t border-black/8 pt-6 mt-auto">
               <AddToCartButton product={raw} />
+              <BuyNowButton product={raw} />
             </div>
 
             {/* Trust badges */}

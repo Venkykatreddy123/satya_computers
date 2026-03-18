@@ -3,15 +3,16 @@
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import BrutalButton from '@/components/ui/BrutalButton';
+import { Search, Activity, Wifi, ShieldCheck, Box } from 'lucide-react';
 
 const SpinningBadge = () => (
   <div className="absolute -bottom-14 -right-16 z-50 w-36 h-36 md:w-52 md:h-52 rounded-full border-2 border-black/10 bg-white/95 backdrop-blur-2xl flex items-center justify-center p-2 shadow-[0_30px_60px_rgba(0,0,0,0.25)] group/badge hover:scale-105 transition-transform duration-700">
     <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible animate-[spin_20s_linear_infinite] group-hover/badge:[animation-duration:10s]">
        <path id="circlePath" d="M 50, 50 m -40, 0 a 40,40 0 1,1 80,0 a 40,40 0 1,1 -80,0" fill="transparent"/>
        <text className="font-heading text-[10.5px] tracking-[0.25em] font-bold fill-black/80 uppercase">
-         <textPath href="#circlePath" startOffset="0%">
-            • SATYA COMPUTERS • NEXT GEN LAPTOPS •&nbsp;
-         </textPath>
+          <textPath href="#circlePath" startOffset="0%">
+             • SATYA COMPUTERS • NEXT GEN LAPTOPS •&nbsp;
+          </textPath>
        </text>
     </svg>
     <div className="absolute inset-0 flex items-center justify-center p-12">
@@ -20,7 +21,6 @@ const SpinningBadge = () => (
   </div>
 );
 
-/* Animated HUD label that floats into position */
 const HUDLabel = ({ text, top, left, delay }: { text: string; top: string; left: string; delay: string }) => {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -56,21 +56,24 @@ export default function SplitHero() {
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setMousePos({ x, y });
     
-    if (cursorRef.current) {
-      cursorRef.current.style.left = `calc(${(x + 0.5) * 100}% - 20px)`;
-      cursorRef.current.style.top = `calc(${(y + 0.5) * 100}% - 20px)`;
-    }
-    if (watermarkRef.current) {
-      watermarkRef.current.style.transform = `rotate(-8deg) scale(1.3) translate(${x * -25}px, ${y * -25}px)`;
-    }
-    if (stackRef.current) {
-      stackRef.current.style.transform = `perspective(2500px) rotateX(${y * -14}deg) rotateY(${x * 14}deg)`;
-    }
+    requestAnimationFrame(() => {
+      const rect = containerRef.current!.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      setMousePos({ x, y });
+      
+      if (cursorRef.current) {
+        cursorRef.current.style.left = `calc(${(x + 0.5) * 100}% - 20px)`;
+        cursorRef.current.style.top = `calc(${(y + 0.5) * 100}% - 20px)`;
+      }
+      if (watermarkRef.current) {
+        watermarkRef.current.style.transform = `rotate(-8deg) scale(1.3) translate(${x * -25}px, ${y * -25}px)`;
+      }
+      if (stackRef.current) {
+        stackRef.current.style.transform = `perspective(2500px) rotateX(${y * -14}deg) rotateY(${x * 14}deg)`;
+      }
+    });
   };
 
   const handleMouseLeave = () => setMousePos({ x: 0, y: 0 });
@@ -82,12 +85,23 @@ export default function SplitHero() {
       
       {/* ─── LEFT ─── */}
       <div className="w-full lg:w-[48%] h-full flex flex-col justify-center items-start px-6 py-16 md:p-16 lg:px-20 relative z-20">
-        <div className="inline-block border-2 border-black bg-white px-5 py-2 mb-10 transform -rotate-2 shadow-[4px_4px_0_var(--color-brand-primary)] hover:shadow-[6px_6px_0_black] hover:rotate-1 transition-all duration-300 hidden md:block">
-          <span className="font-heading text-[11px] tracking-[0.3em] text-black uppercase font-bold">
-             {`// ENGINE CORE ONLINE`}
-          </span>
-        </div>
         
+        {/* New: Status Bar */}
+        <div className="flex items-center gap-6 mb-12 border-b-2 border-black/5 pb-4 w-full max-w-sm">
+           <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="font-heading text-[10px] tracking-widest text-black/40 uppercase">Server: Active</span>
+           </div>
+           <div className="flex items-center gap-2">
+              <Wifi size={12} className="text-black/20" />
+              <span className="font-heading text-[10px] tracking-widest text-black/40 uppercase">SECURE_SSL</span>
+           </div>
+           <div className="ml-auto hidden sm:flex items-center gap-2">
+              <Activity size={12} className="text-[var(--color-brand-primary)]" />
+              <span className="font-heading text-[10px] tracking-widest text-[var(--color-brand-primary)] uppercase font-black">99.8% Uptime</span>
+           </div>
+        </div>
+
         <h1 className="font-heading text-[4.5rem] leading-[0.85] md:text-[6.5rem] lg:text-[7rem] xl:text-[8rem] tracking-normal text-brand-text mb-10 relative z-10 w-full break-words">
           BOLD.<br/>
           PREMIUM.<br/>
@@ -101,28 +115,33 @@ export default function SplitHero() {
           Elite-tier calculating machinery for creators and engineers. Brutal performance, refined aesthetics.
         </p>
 
-        <div className="flex flex-wrap gap-8 items-center">
-          <Link href="/products">
-            <BrutalButton className="!h-16 !px-12 text-2xl">ACCESS SYSTEM</BrutalButton>
+        <div className="flex flex-wrap gap-6 items-center w-full">
+          <Link href="/products" className="flex-1 sm:flex-none">
+            <BrutalButton className="!h-16 !px-12 text-2xl w-full">ACCESS SYSTEMS</BrutalButton>
           </Link>
-          <div className="flex -space-x-4 isolate group hidden sm:flex">
-            {[
-              "1500648767791-00dcc994a43e",
-              "1534528741775-53994a69daeb",
-              "1507003211169-0a1dd7228f2d"
-            ].map((id, i) => (
-              <div key={i} className="w-14 h-14 rounded-full border-2 border-white bg-black/5 overflow-hidden relative z-10 hover:z-40 transition-all hover:scale-125 duration-500 hover:border-[var(--color-brand-primary)] cursor-pointer">
-                <img 
-                  src={`https://images.unsplash.com/photo-${id}?auto=format&fit=crop&q=80&w=150`}
-                  alt="Verified Pro"
-                  className="w-full h-full object-cover filter contrast-125"
-                />
-              </div>
-            ))}
-            <div className="w-14 h-14 rounded-full border-2 border-white bg-black flex items-center justify-center text-[var(--color-brand-primary)] font-heading text-sm relative z-20 group-hover:scale-110 transition-transform">
-              4.9★
-            </div>
+          
+          <Link href="/products?focus=search" className="h-16 w-16 bg-white border-2 border-black flex items-center justify-center group hover:bg-black transition-all">
+             <Search size={24} className="group-hover:text-white transition-colors" />
+          </Link>
+
+          <div className="hidden xl:flex items-center gap-10 ml-auto border-l border-black/10 pl-10">
+             <div className="flex flex-col">
+                <span className="font-heading text-[24px] text-black leading-none mb-1 font-black">450+</span>
+                <span className="font-heading text-[9px] tracking-widest text-black/40 uppercase">LIVE_STOCK</span>
+             </div>
+             <div className="flex flex-col">
+                <span className="font-heading text-[24px] text-black leading-none mb-1 font-black">2h</span>
+                <span className="font-heading text-[9px] tracking-widest text-black/40 uppercase">AVG_DISPATCH</span>
+             </div>
           </div>
+        </div>
+        
+        {/* Floating Trust Badge */}
+        <div className="mt-16 flex items-center gap-4 bg-gray-50 border border-black/5 px-4 py-3">
+           <ShieldCheck className="text-emerald-600" size={20} />
+           <p className="font-body text-[10px] font-bold text-black/40 tracking-widest uppercase">
+             Identity Verified & Enterprise Hardware Certified
+           </p>
         </div>
       </div>
 
@@ -179,10 +198,10 @@ export default function SplitHero() {
         >
           {/* ── CARD 1: Back-Left (MacBook) ── */}
           <Link
-            href="/products/macbook-pro-14-m4"
+            href="/products?brand=apple"
             className="absolute w-[65%] sm:w-[55%] aspect-[16/10] bg-zinc-900/95 border border-white/5 p-2 shadow-2xl
-              -translate-y-32 -translate-x-48 -rotate-12 scale-90 opacity-30 blur-[5px]
-              group-hover:-translate-y-44 group-hover:-translate-x-60 group-hover:-rotate-8 group-hover:scale-100 group-hover:blur-0 group-hover:opacity-100
+              -translate-y-20 -translate-x-32 md:-translate-y-32 md:-translate-x-48 -rotate-12 scale-90 opacity-30 blur-[5px]
+              group-hover:-translate-y-32 group-hover:-translate-x-40 md:group-hover:-translate-y-44 md:group-hover:-translate-x-60 group-hover:-rotate-8 group-hover:scale-100 group-hover:blur-0 group-hover:opacity-100
               transition-all duration-[900ms] ease-out z-10 hover:!z-[60] hover:ring-2 hover:ring-[var(--color-brand-primary)]"
           >
             <div className="relative w-full h-full overflow-hidden bg-black ring-1 ring-white/10 group/c1">
@@ -193,17 +212,17 @@ export default function SplitHero() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent p-5 flex flex-col justify-end">
                 <span className="font-heading text-[9px] text-[var(--color-brand-primary)] tracking-[0.4em] mb-1.5 font-bold">UNIFIED MEMORY</span>
-                <span className="font-body text-white text-sm font-black uppercase">MacBook Pro M4</span>
+                <span className="font-body text-white text-sm font-black uppercase">MacBook Pro Ecosystem</span>
               </div>
             </div>
           </Link>
 
           {/* ── CARD 2: Back-Right (ROG) ── */}
           <Link
-            href="/products/asus-rog-zephyrus-g14-2024"
+            href="/products?focus=gaming"
             className="absolute w-[65%] sm:w-[55%] aspect-[16/10] bg-zinc-900/95 border border-[var(--color-brand-primary)]/20 p-2 shadow-2xl
-              translate-y-32 translate-x-48 rotate-12 scale-90 opacity-30 blur-[5px]
-              group-hover:translate-y-44 group-hover:translate-x-60 group-hover:rotate-8 group-hover:scale-100 group-hover:blur-0 group-hover:opacity-100
+              translate-y-20 translate-x-32 md:translate-y-32 md:translate-x-48 rotate-12 scale-90 opacity-30 blur-[5px]
+              group-hover:translate-y-32 group-hover:translate-x-40 md:group-hover:-translate-y-44 md:group-hover:-translate-x-60 group-hover:rotate-8 group-hover:scale-100 group-hover:blur-0 group-hover:opacity-100
               transition-all duration-[900ms] ease-out z-10 hover:!z-[60] hover:ring-2 hover:ring-[var(--color-brand-primary)]"
           >
             <div className="relative w-full h-full overflow-hidden bg-black ring-1 ring-white/10 group/c2">
@@ -214,16 +233,16 @@ export default function SplitHero() {
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[var(--color-brand-primary)]/60 to-transparent h-1/2 p-5 flex flex-col justify-end">
                 <span className="font-heading text-[9px] text-white tracking-[0.4em] mb-1.5 font-bold">RTX OPTIMIZED</span>
-                <span className="font-body text-white text-sm font-black uppercase">ROG Zephyrus G14</span>
+                <span className="font-body text-white text-sm font-black uppercase">High-Hz Gaming Nodes</span>
               </div>
             </div>
           </Link>
 
           {/* ── CARD 3: Main Focus (Dell XPS 14) ── */}
-          <Link
-            href="/products/dell-xps-14-9440"
-            className="absolute w-[85%] sm:w-[70%] max-w-[520px] aspect-[4/5] bg-white border-[4px] border-black p-4 md:p-5
-              shadow-[0_80px_150px_-30px_rgba(0,0,0,0.8)]
+          <div
+            className="absolute w-[80%] sm:w-[70%] max-w-[500px] aspect-[4/5] bg-white border-[4px] border-black p-4 md:p-5
+              shadow-[0_40px_100px_-20px_rgba(0,0,0,0.6)]
+              md:shadow-[0_80px_150px_-30px_rgba(0,0,0,0.8)]
               group-hover:scale-[1.04] group-hover:shadow-[0_100px_180px_-40px_rgba(241,90,36,0.35)]
               transition-all duration-500 ease-out z-30 hover:!z-[70]"
           >
@@ -282,8 +301,8 @@ export default function SplitHero() {
                 <div className="flex items-end justify-between border-t-[3px] border-black pt-5 mt-auto">
                   <div className="group/stock">
                     <span className="flex items-center gap-2.5 bg-black text-white px-5 py-2.5 font-heading text-[11px] tracking-[0.3em] font-bold cursor-pointer hover:bg-[var(--color-brand-primary)] transition-colors duration-300 active:scale-95">
-                      <span className="w-2.5 h-2.5 rounded-full bg-green-400 animate-[pulse_1s_ease-in-out_infinite] shadow-[0_0_8px_rgba(74,222,128,0.8)]" />
-                      LIVE&nbsp;STOCK
+                      <Box size={14} className="text-emerald-400" />
+                      LIVE&nbsp;INVENTORY
                     </span>
                   </div>
                   <div className="text-right h-12 overflow-hidden">
@@ -303,7 +322,7 @@ export default function SplitHero() {
             </div>
 
             <SpinningBadge />
-          </Link>
+          </div>
         </div>
       </div>
     </section>

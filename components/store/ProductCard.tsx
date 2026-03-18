@@ -139,14 +139,19 @@ export default function ProductCard({ product }: ProductCardProps) {
 
             {/* Tech Specs Grid */}
             <div className="grid grid-cols-2 gap-2 border-t border-black/5 pt-4">
-              {[
+              {(product.category === 'parts' ? [
+                { label: 'TYPE', value: product.specs.processor },
+                { label: 'CAPACITY', value: product.specs.ram },
+                { label: 'SPEED', value: product.specs.storage },
+                { label: 'HEALTH', value: 'Certified' },
+              ] : [
                 { label: 'CPU', value: product.specs.processor },
                 { label: 'RAM', value: product.specs.ram },
                 { label: 'SSD', value: product.specs.storage },
                 { label: 'DISPLAY', value: product.specs.screen },
-              ].map((spec, i) => (
+              ]).map((spec, i) => (
                 <motion.div
-                  key={spec.label}
+                  key={`${spec.label}-${i}`}
                   className="relative pl-2.5 space-y-0.5"
                   animate={{ x: hovered ? 0 : -3, opacity: hovered ? 1 : 0.85 }}
                   transition={{ delay: i * 0.04, duration: 0.25 }}

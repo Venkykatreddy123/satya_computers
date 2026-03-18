@@ -13,7 +13,7 @@ export default function AccountPage() {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     
@@ -23,19 +23,38 @@ export default function AccountPage() {
       return;
     }
 
-    // Simulate network request
-    setTimeout(() => {
+    try {
+      const endpoint = isLogin ? '/api/login' : '/api/register';
+      const body = isLogin 
+        ? { email: formData.email, password: formData.password }
+        : { name: formData.name, email: formData.email, password: formData.password };
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Something went wrong');
+      }
+
       setIsSubmitting(false);
       if (isLogin) {
-        localStorage.setItem('satya_user', formData.email.split('@')[0].toUpperCase());
+        localStorage.setItem('satya_user', data.name.toUpperCase());
         alert("Successfully logged in!");
       } else {
-        localStorage.setItem('satya_user', formData.name.toUpperCase());
+        localStorage.setItem('satya_user', data.name.toUpperCase());
         alert("Account created successfully!");
       }
       // Force reload to update navigation bar state
       window.location.href = '/';
-    }, 1500);
+    } catch (error: any) {
+      alert(error.message);
+      setIsSubmitting(false);
+    }
   };
 
   return (

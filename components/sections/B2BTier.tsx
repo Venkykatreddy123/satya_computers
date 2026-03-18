@@ -1,105 +1,141 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Truck, ShieldCheck, Zap, Handshake, ArrowRight } from 'lucide-react';
-import Link from 'next/link';
-
-const features = [
-  {
-    icon: Truck,
-    title: "SAME-DAY DEPLOYMENT",
-    desc: "Order before 2 PM and receive your systems within Hyderabad limits on the very same day. Securely packaged and ready to boot.",
-    col: "var(--color-brand-primary)"
-  },
-  {
-    icon: ShieldCheck,
-    title: "6-MONTH WARRANTY",
-    desc: "Comprehensive hardware coverage on all refurbished units. Direct replacement for any motherboard or display issues.",
-    col: "var(--color-brand-accent)"
-  },
-  {
-    icon: Zap,
-    title: "CUSTOM CONFIGS",
-    desc: "Need 64GB RAM or specifically patched Linux distros for a bulk team order? We build to your exact operational spec.",
-    col: "#111"
-  },
-  {
-    icon: Handshake,
-    title: "BUYBACK PROGRAM",
-    desc: "Upgrading your corporate fleet? We offer competitive buyback rates on your old workstations when purchasing new stock.",
-    col: "var(--color-brand-primary)"
-  }
-];
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Building2, Globe, Truck, Calculator, ChevronRight, Check } from 'lucide-react';
 
 export default function B2BTier() {
+  const [quantity, setQuantity] = useState(1);
+  const [showQuote, setShowQuote] = useState(false);
+
+  const unitPrice = 28000;
+  const discount = quantity >= 50 ? 0.20 : quantity >= 10 ? 0.12 : quantity >= 5 ? 0.08 : 0;
+  const totalPrice = unitPrice * quantity * (1 - discount);
+
   return (
-    <section className="py-24 bg-white relative overflow-hidden">
-      
-      {/* Background Tech Details */}
-      <div className="absolute top-0 right-0 w-1/2 h-full bg-[#f8f8f8] -skew-x-12 translate-x-32 hidden lg:block" />
-      <div className="absolute top-10 left-10 font-mono text-[80px] md:text-[150px] font-black tracking-tighter text-black/5 select-none pointer-events-none">
-        B2B
-      </div>
+    <section className="py-24 bg-black text-white relative overflow-hidden">
+      {/* Background Decor */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[var(--color-brand-primary)]/10 to-transparent" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.05)_0%,transparent_50%)]" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           
-          {/* Left Text Column */}
-          <div className="lg:col-span-5 flex flex-col items-start text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-black text-white font-heading text-[10px] tracking-[0.2em] uppercase mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-brand-primary)] animate-pulse" />
-              Corporate & Bulk Orders
+          {/* Content Left */}
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 border border-white/5 rounded-full mb-8">
+               <Building2 size={14} className="text-[var(--color-brand-primary)]" />
+               <span className="font-heading text-[10px] tracking-[0.2em] uppercase font-bold text-white/50">Enterprise Procurement</span>
             </div>
-
-            <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl text-brand-text mb-6 uppercase leading-[1.1]">
-              POWERING <span className="text-[var(--color-brand-primary)]">TEAMS</span><br />
-              AT SCALE
+            
+            <h2 className="font-heading text-5xl md:text-7xl mb-8 leading-[0.9] tracking-tighter">
+              B2B <span className="text-[var(--color-brand-primary)]">SOLUTIONS</span> FOR SCALE.
             </h2>
             
-            <p className="font-body text-brand-text/60 leading-relaxed mb-10 text-lg">
-              Whether you are equipping a startup of 10 or replacing a corporate fleet of 200, Satya Computers provides the hardware backbone you need without the premium markup. Let us handle the procurement logistics.
+            <p className="font-body text-white/60 text-lg leading-relaxed mb-12 max-w-lg">
+              Optimized supply chain for educational institutions, corporate startups, and large-scale enterprises. Custom configurations with volume-based scaling.
             </p>
 
-            <Link href="/contact" className="group">
-               <button className="bg-black text-white px-8 py-4 font-heading text-xs tracking-[0.3em] font-bold uppercase transition-all duration-300 hover:bg-[var(--color-brand-primary)] flex items-center gap-4">
-                 REQUEST QUOTE
-                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-               </button>
-            </Link>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+              {[
+                { icon: Globe, title: 'PAN-INDIA DEPLOYMENT', sub: 'Hub-and-spoke logistics' },
+                { icon: Truck, title: 'FAST-TRACK LOGISTICS', sub: '48hr node delivery' },
+              ].map((item, idx) => (
+                <div key={idx} className="flex gap-4 p-6 bg-white/5 border border-white/10 hover:border-white/20 transition-all">
+                  <div className="w-10 h-10 bg-[var(--color-brand-primary)]/10 flex items-center justify-center border border-[var(--color-brand-primary)]/20">
+                     <item.icon size={20} className="text-[var(--color-brand-primary)]" />
+                  </div>
+                  <div>
+                    <h4 className="font-heading text-xs tracking-widest uppercase mb-1">{item.title}</h4>
+                    <p className="text-[10px] text-white/40 uppercase font-bold tracking-tight">{item.sub}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Right Features Column */}
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {features.map((feature, idx) => (
-              <motion.div 
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1 }}
-                className="bg-white border-2 border-black/5 p-8 group hover:border-[var(--color-brand-primary)] hover:shadow-[0_20px_40px_rgba(241,90,36,0.1)] transition-all duration-300 relative overflow-hidden"
-              >
-                {/* Accent line */}
-                <motion.div 
-                   className="absolute left-0 top-0 bottom-0 w-1 scale-y-0 group-hover:scale-y-100 transition-transform duration-300 origin-bottom"
-                   style={{ backgroundColor: feature.col }}
-                />
-                
-                <div 
-                   className="w-12 h-12 flex items-center justify-center mb-6 bg-black/[0.03] group-hover:scale-110 transition-transform duration-500"
-                >
-                   <feature.icon className="w-6 h-6" style={{ color: feature.col }} strokeWidth={1.5} />
+          {/* Calculator Right */}
+          <div className="relative">
+             <div className="bg-white text-black p-10 md:p-14 shadow-[40px_40px_0_rgba(241,90,36,0.2)] border-2 border-black relative z-10">
+                <div className="flex items-center justify-between mb-10 border-b-2 border-black pb-6">
+                   <h3 className="font-heading text-2xl uppercase tracking-tighter">VOLUME ESTIMATOR</h3>
+                   <Calculator className="w-6 h-6 text-[var(--color-brand-primary)]" />
+                </div>
+
+                <div className="space-y-8">
+                   <div className="space-y-4">
+                      <div className="flex justify-between font-heading text-[11px] tracking-widest uppercase">
+                        <span>UNITS REQUIRED</span>
+                        <span className="text-[var(--color-brand-primary)] font-black">{quantity} SYSTEMS</span>
+                      </div>
+                      <input 
+                        type="range" 
+                        min="1" 
+                        max="100" 
+                        value={quantity}
+                        onChange={(e) => setQuantity(parseInt(e.target.value))}
+                        className="w-full h-1.5 bg-gray-100 appearance-none cursor-pointer accent-black"
+                        aria-label="Quantity of systems"
+                      />
+                      <div className="flex justify-between text-[9px] text-black/40 font-bold">
+                         <span>SINGLE NODE</span>
+                         <span>FLEET (100+)</span>
+                      </div>
+                   </div>
+
+                   <div className="bg-gray-50 p-6 border border-black/5 space-y-4">
+                      <div className="flex justify-between text-xs">
+                         <span className="text-black/50 font-heading">BASE VALUE</span>
+                         <span className="font-body font-black">₹{(unitPrice * quantity).toLocaleString('en-IN')}</span>
+                      </div>
+                      <div className="flex justify-between text-xs items-center">
+                         <span className="text-black/50 font-heading">VOLUME REBATE</span>
+                         <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded font-black">{(discount * 100).toFixed(0)}% OFF</span>
+                      </div>
+                      <div className="h-px bg-black/10" />
+                      <div className="flex justify-between items-end">
+                         <span className="font-heading text-xs uppercase tracking-widest">FINAL QUOTE</span>
+                         <span className="font-body text-4xl font-black text-black">₹{totalPrice.toLocaleString('en-IN')}</span>
+                      </div>
+                   </div>
+
+                   <button 
+                    onClick={() => setShowQuote(true)}
+                    className="w-full bg-black text-white py-5 font-heading text-sm tracking-widest uppercase hover:bg-[var(--color-brand-primary)] transition-all flex items-center justify-center gap-3 relative overflow-hidden group"
+                   >
+                     <span>SUBMIT FOR EVALUATION</span>
+                     <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                   </button>
                 </div>
                 
-                <h3 className="font-heading text-xl text-brand-text uppercase mb-3 tracking-wider">{feature.title}</h3>
-                <p className="font-body text-sm text-brand-text/60 leading-relaxed">{feature.desc}</p>
-              </motion.div>
-            ))}
+                {/* Success Overlay */}
+                <AnimatePresence>
+                  {showQuote && (
+                     <motion.div 
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        className="absolute inset-0 z-20 bg-white flex flex-col items-center justify-center p-12 text-center"
+                     >
+                        <div className="w-16 h-16 bg-green-500 text-white rounded-full flex items-center justify-center mb-6 shadow-xl shadow-green-500/20">
+                           <Check size={32} />
+                        </div>
+                        <h4 className="font-heading text-2xl mb-4 uppercase">REQUEST LOGGED</h4>
+                        <p className="font-body text-sm text-black/50 mb-10 leading-relaxed">
+                          Your configuration for <strong>{quantity} units</strong> has been transmitted to our corporate desk. Reaching out within <span className="text-black font-black underline decoration-[var(--color-brand-primary)]">2 Business Hours</span>.
+                        </p>
+                        <button onClick={() => setShowQuote(false)} className="font-heading text-[10px] tracking-[0.3em] uppercase text-black/30 hover:text-black transition-colors underline decoration-black/10 underline-offset-4">
+                          ← Back to Configurator
+                        </button>
+                     </motion.div>
+                  )}
+                </AnimatePresence>
+             </div>
+
+             {/* Background Brutalist Shapes */}
+             <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-[var(--color-brand-primary)] -z-0" />
           </div>
-
         </div>
-
       </div>
     </section>
   );

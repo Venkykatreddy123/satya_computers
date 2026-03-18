@@ -3,7 +3,7 @@ export interface Product {
   name: string;
   slug: string;
   brand: string;
-  category?: 'business' | 'gaming' | 'creator' | 'student' | 'ultrabook' | 'workstation' | '2-in-1';
+  category?: 'business' | 'gaming' | 'creator' | 'student' | 'ultrabook' | 'workstation' | '2-in-1' | 'parts';
   price: number;
   originalPrice: number;
   image: string;
@@ -136,7 +136,7 @@ export const products: Product[] = [
     brand: 'Dell',
     price: 9024,
     originalPrice: 56400,
-    image: 'https://images.unsplash.com/photo-1599305090598-fe179d501227?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=800',
     description: 'Heavy-duty mobile workstation for CAD, video editing, and demanding workloads.',
     specs: {
       processor: 'Intel Core i7',
@@ -254,7 +254,7 @@ export const products: Product[] = [
     price: 32000,
     originalPrice: 200000,
     badge: 'NEW',
-    image: 'https://images.unsplash.com/photo-1544731612-de7f96afe55f?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=800',
     description: 'The powerhouse for professionals, now with the revolutionary M4 Pro chip.',
     specs: {
       processor: 'Apple M4 Pro',
@@ -288,7 +288,7 @@ export const products: Product[] = [
     price: 36800,
     originalPrice: 230000,
     badge: 'HOT',
-    image: 'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1593642532400-2682810df593?auto=format&fit=crop&q=80&w=800',
     description: 'The most powerful 14-inch gaming laptop, featuring the latest NVIDIA RTX 4070.',
     specs: {
       processor: 'AMD Ryzen 9 8945HS',
@@ -305,7 +305,7 @@ export const products: Product[] = [
     price: 9600,
     originalPrice: 60000,
     badge: 'SALE',
-    image: 'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&q=80&w=800',
     description: 'Incredibly light at under 1kg, without compromising on AMD Ryzen performance.',
     specs: {
       processor: 'AMD Ryzen 7',
@@ -322,7 +322,7 @@ export const products: Product[] = [
     price: 11200,
     originalPrice: 70000,
     badge: 'SALE',
-    image: 'https://images.unsplash.com/photo-1599305090598-fe179d501227?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1593642532400-2682810df593?auto=format&fit=crop&q=80&w=800',
     description: 'Vibrant OLED display and Intel Core Ultra performance in a thin and light chassis.',
     specs: {
       processor: 'Intel Core Ultra 5',
@@ -440,7 +440,7 @@ export const products: Product[] = [
     price: 12800,
     originalPrice: 80000,
     badge: 'SALE',
-    image: 'https://images.unsplash.com/photo-1599305090598-fe179d501227?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1542393545-10f5cde2c810?auto=format&fit=crop&q=80&w=800',
     description: 'Versatile gaming laptop offering high value and smooth 1080p gaming.',
     specs: {
       processor: 'AMD Ryzen 7 8845HS',
@@ -473,7 +473,7 @@ export const products: Product[] = [
     brand: 'Dell',
     price: 13600,
     originalPrice: 85000,
-    image: 'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=800',
     description: 'Reliable 16-inch laptop for students and home users with a modern display.',
     specs: {
       processor: 'Intel Core Ultra 5',
@@ -541,7 +541,7 @@ export const products: Product[] = [
     price: 20480,
     originalPrice: 128000,
     badge: 'HOT',
-    image: 'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&q=80&w=800',
     description: 'High-performance gaming with advanced cooling and a stunning 165Hz display.',
     specs: {
       processor: 'Intel Core i7 14th Gen',
@@ -685,6 +685,59 @@ export const products: Product[] = [
       storage: '2TB NVMe SSD',
       screen: '16" 4K OLED Touch'
     }
+  },
+  {
+    id: 'samsung-990-pro-1tb',
+    name: 'Samsung 990 Pro 1TB NVMe Gen4 SSD',
+    slug: 'samsung-990-pro-1tb',
+    brand: 'Samsung',
+    category: 'parts',
+    price: 9500,
+    originalPrice: 14500,
+    badge: 'HOT',
+    image: '/products/samsung-990-pro.png',
+    description: 'The ultimate NVMe Gen4 SSD with speeds up to 7450MB/s. Perfect for performance workstations.',
+    specs: {
+      processor: 'Pascal Controller',
+      ram: '1GB LPDDR4',
+      storage: '1TB NVMe',
+      screen: 'N/A'
+    }
+  },
+  {
+    id: 'crucial-16gb-ddr5-5600',
+    name: 'Crucial 16GB DDR5 5600MHz Laptop RAM',
+    slug: 'crucial-16gb-ddr5-5600',
+    brand: 'Crucial',
+    category: 'parts',
+    price: 5200,
+    originalPrice: 7800,
+    badge: 'NEW',
+    image: '/products/crucial-ram.png',
+    description: 'High-speed DDR5 memory for the latest laptop platforms. Improves multitasking and workflow speed.',
+    specs: {
+      processor: 'SO-DIMM',
+      ram: '16GB',
+      storage: '5600MHz',
+      screen: 'N/A'
+    }
+  },
+  {
+    id: 'dell-latitude-battery-63wh',
+    name: 'Dell Latitude 63Wh Original Battery',
+    slug: 'dell-latitude-battery-63wh',
+    brand: 'Dell',
+    category: 'parts',
+    price: 4500,
+    originalPrice: 6500,
+    image: '/products/dell-battery.png',
+    description: 'Genuine Dell replacement battery for Latitude 5000/7000 series. Certified 63Wh capacity.',
+    specs: {
+      processor: 'Li-ion',
+      ram: '63Wh',
+      storage: '4-Cell',
+      screen: 'N/A'
+    }
   }
 
 ];
@@ -722,8 +775,8 @@ const realImages: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&q=80&w=800',
   ],
   'dell-precision-3541': [
-    'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&q=80&w=800',
     'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&q=80&w=800',
   ],
   'lenovo-thinkpad-t470': [
@@ -757,9 +810,9 @@ const realImages: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&q=80&w=800',
   ],
   'macbook-pro-14-m4': [
-    'https://images.unsplash.com/photo-1599305090598-fe179d501227?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1593642532842-98d0fd5ebc1a?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&q=80&w=800',
   ],
   'asus-rog-zephyrus-g14-2024': [
     'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&q=80&w=800',
@@ -767,14 +820,14 @@ const realImages: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&q=80&w=800',
   ],
   'razer-blade-14-2024': [
-    'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1544731612-de7f96afe55f?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1593642532400-2682810df593?auto=format&fit=crop&q=80&w=800',
     'https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&q=80&w=800',
   ],
   'hp-pavilion-aero-13-2024': [
+    'https://images.unsplash.com/photo-1593642532842-98d0fd5ebc1a?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&q=80&w=800',
     'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1599305090598-fe179d501227?auto=format&fit=crop&q=80&w=800',
   ],
   'acer-swift-go-14-2024': [
     'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=800',
@@ -812,9 +865,9 @@ const realImages: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&q=80&w=800',
   ],
   'acer-nitro-v-16': [
-    'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1542393545-10f5cde2c810?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1593642532400-2682810df593?auto=format&fit=crop&q=80&w=800',
     'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&q=80&w=800',
   ],
   'lenovo-yoga-pro-9i-2024': [
     'https://images.unsplash.com/photo-1599305090598-fe179d501227?auto=format&fit=crop&q=80&w=800',
@@ -822,9 +875,9 @@ const realImages: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&q=80&w=800',
   ],
   'dell-inspiron-16-7640': [
-    'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&q=80&w=800',
     'https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1541807084-5c52b6b3adef?auto=format&fit=crop&q=80&w=800',
   ],
   'hp-elitebook-1040-g11': [
     'https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&q=80&w=800',
@@ -842,9 +895,9 @@ const realImages: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?auto=format&fit=crop&q=80&w=800',
   ],
   'acer-predator-helios-neo-16': [
-    'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1603302576837-37561b2e2302?auto=format&fit=crop&q=80&w=800',
+    'https://images.unsplash.com/photo-1542393545-10f5cde2c810?auto=format&fit=crop&q=80&w=800',
     'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&q=80&w=800',
-    'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&q=80&w=800',
   ],
   'lenovo-loq-15-2025': [
     'https://images.unsplash.com/photo-1599305090598-fe179d501227?auto=format&fit=crop&q=80&w=800',
@@ -930,6 +983,7 @@ export function enrichProduct(p: Product) {
     if (n.includes('surface pro') || n.includes('yoga') || n.includes('spectre') || n.includes('zenbook') || n.includes('swift')) return '2-in-1';
     if (n.includes('latitude') || n.includes('elitebook') || n.includes('thinkpad') || n.includes('omnibook')) return 'business';
     if (n.includes('macbook') || n.includes('xps') || n.includes('zenbook s') || n.includes('framework') || n.includes('aero')) return 'ultrabook';
+    if (n.includes('ssd') || n.includes('ram') || n.includes('battery') || n.includes('nvme') || n.includes('parts')) return 'parts';
     return 'student';
   })();
 

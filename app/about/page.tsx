@@ -5,148 +5,161 @@ import GrainOverlay from '@/components/ui/GrainOverlay';
 import BrutalButton from '@/components/ui/BrutalButton';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { CheckSquare, Zap, Users, Award } from 'lucide-react';
+import { CheckSquare, Zap, Users, Award, Shield, Cpu, RotateCcw, Truck } from 'lucide-react';
 
 const stats = [
   { icon: Award, label: 'Years of Trust', value: '10+' },
-  { icon: Users, label: 'Happy Clients', value: '2000+' },
-  { icon: Zap, label: 'Systems Deployed', value: '5000+' },
-  { icon: CheckSquare, label: 'Warranty Rate', value: '100%' },
+  { icon: Users, label: 'Happy Clients', value: '25k+' },
+  { icon: Zap, label: 'Systems Deployed', value: '15k+' },
+  { icon: CheckSquare, label: 'Success Rate', value: '99.8%' },
+];
+
+const values = [
+  {
+    icon: Shield,
+    title: "Enterprise Grade",
+    description: "Every machine undergoes a 12-point industrial stress test before reaching your desk."
+  },
+  {
+    icon: Cpu,
+    title: "Peak Performance",
+    description: "We optimize hardware configurations to ensure modern software runs without compromise."
+  },
+  {
+    icon: RotateCcw,
+    title: "Sustainability",
+    description: "Reducing e-waste by extending the lifecycle of premium hardware through precision refurbishment."
+  },
+  {
+    icon: Truck,
+    title: "Global Standards",
+    description: "Located in Hyderabad's tech hub, operating with global procurement standards."
+  }
 ];
 
 export default function AboutPage() {
   return (
-    <main className="min-h-screen bg-white relative pb-24">
-      <GrainOverlay opacity={30} />
+    <main className="min-h-screen bg-white relative pb-24 overflow-hidden">
+      <GrainOverlay opacity={15} />
 
-      <section className="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative border-b border-black/10">
-        <motion.h1
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6 }}
-          className="font-heading text-6xl md:text-8xl text-[#1A1A1A] tracking-tight mb-4 uppercase"
+      {/* Hero Section */}
+      <section className="relative pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-b border-black/5">
+        <div className="absolute top-10 right-10 text-[12rem] font-heading text-black/[0.02] select-none pointer-events-none tracking-tighter">
+          EST. 2014
+        </div>
+        
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="relative z-10"
         >
-          ABOUT <span className="text-[#F15A24]">US</span>
-        </motion.h1>
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-          className="font-body text-xl text-[var(--color-brand-accent)] tracking-widest uppercase mb-8"
-        >
-          {storeInfo.tagline}
-        </motion.p>
+          <span className="font-body text-xs tracking-[0.4em] text-[var(--color-brand-primary)] uppercase mb-4 block font-bold">The Ameerpet Legacy</span>
+          <h1 className="font-heading text-7xl md:text-9xl text-[#1A1A1A] leading-[0.85] mb-8 uppercase">
+            REDEFINING <br />
+            <span className="text-[var(--color-brand-primary)]">PERFORMANCE.</span>
+          </h1>
+          <p className="font-body text-xl md:text-2xl text-black/60 max-w-2xl leading-relaxed">
+            Satya Computers is not just a hardware store; we are a bridge between high-end industrial tech and the professionals who use it.
+          </p>
+        </motion.div>
       </section>
 
       {/* Stats Row */}
-      <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {stats.map((stat, i) => (
             <motion.div
               key={stat.label}
-              custom={i}
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.5, type: 'spring', bounce: 0.3 }}
-              whileHover={{ y: -6, scale: 1.02 }}
-              className="group relative"
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+              className="group"
             >
-              {/* Rotating shimmer border */}
-              <div className="absolute -inset-[2px] z-0 overflow-hidden">
-                <motion.div
-                  className="absolute inset-0"
-                  style={{ background: 'conic-gradient(from 0deg, transparent 0%, var(--color-brand-primary) 25%, transparent 50%)' }}
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 7, repeat: Infinity, ease: 'linear', delay: i * 1.5 }}
-                />
-                <div className="absolute inset-[2px] bg-white" />
-              </div>
-              <div className="relative z-10 bg-white p-6 text-center shadow-[0_4px_20px_rgba(0,0,0,0.05)] group-hover:shadow-[0_16px_48px_rgba(241,90,36,0.12)] transition-shadow duration-400">
-                <div className="w-10 h-10 mx-auto mb-3 flex items-center justify-center border border-black/8 group-hover:border-[var(--color-brand-primary)] group-hover:bg-[var(--color-brand-primary)] transition-all duration-400">
-                  <stat.icon className="w-5 h-5 text-[var(--color-brand-primary)] group-hover:text-white transition-colors duration-400" strokeWidth={1.5} />
-                </div>
-                <div className="font-heading text-3xl text-brand-text mb-1">{stat.value}</div>
-                <div className="font-heading text-[9px] tracking-[0.25em] text-black/40 uppercase">{stat.label}</div>
+              <div className="border-l-2 border-black/10 group-hover:border-[var(--color-brand-primary)] pl-6 transition-colors duration-300">
+                <div className="font-heading text-5xl text-[#1A1A1A] mb-1">{stat.value}</div>
+                <div className="font-heading text-xs tracking-[0.2em] text-black/40 uppercase font-bold">{stat.label}</div>
               </div>
             </motion.div>
           ))}
         </div>
       </section>
 
-      <section className="py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10 flex flex-col md:flex-row gap-12">
-        {/* Image card */}
+      {/* Story & Philosophy */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto grid md:grid-cols-2 gap-20 items-center">
         <motion.div
-          className="w-full md:w-1/2"
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.65, type: 'spring', bounce: 0.25 }}
+          transition={{ duration: 0.8 }}
         >
-          <div className="relative group">
-            <div className="absolute -inset-[2px] z-0 overflow-hidden">
-              <motion.div
-                className="absolute inset-0"
-                style={{ background: 'conic-gradient(from 180deg, transparent 0%, var(--color-brand-accent) 25%, var(--color-brand-primary) 50%, transparent 75%)' }}
-                animate={{ rotate: 360 }}
-                transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
-              />
-              <div className="absolute inset-[2px] bg-white" />
+          <div className="relative aspect-[4/5] bg-[#F1F1F1] overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-black/20 to-transparent z-10 opacity-30 group-hover:opacity-10 transition-opacity duration-700" />
+            <div className="absolute inset-0 hero-dot-grid opacity-10" />
+            <div className="absolute inset-0 flex items-center justify-center p-12">
+               <motion.div 
+                 animate={{ rotate: 360 }}
+                 transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+                 className="w-full h-full border-[1px] border-black/5 rounded-full flex items-center justify-center"
+               >
+                 <div className="w-1/2 h-1/2 border-[1px] border-black/5 rounded-full" />
+               </motion.div>
             </div>
-            <div className="relative z-10 aspect-[4/3] bg-gradient-to-br from-[#f4f4f4] to-[#e9e9e9] flex items-center justify-center p-8 overflow-hidden">
-              {/* Grid pattern */}
-              <div className="absolute inset-0 opacity-30 bg-[radial-gradient(circle,_#00000015_1px,_transparent_1px)] bg-[size:18px_18px]" />
-              <motion.h2
-                className="font-heading text-5xl text-brand-text/10 tracking-[0.4em] text-center"
-                animate={{ opacity: [0.08, 0.15, 0.08] }}
-                transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                EST.<br />HYDERABAD
-              </motion.h2>
+            <div className="absolute bottom-8 left-8 z-20">
+              <h3 className="font-heading text-4xl text-[#1A1A1A] uppercase tracking-tighter mix-blend-difference">Our DNA</h3>
             </div>
           </div>
         </motion.div>
 
-        {/* Mission & Services */}
-        <motion.div
-          className="w-full md:w-1/2 flex flex-col justify-center"
-          initial={{ opacity: 0, x: 30 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.15, duration: 0.65, type: 'spring', bounce: 0.25 }}
-        >
-          <h2 className="font-heading text-4xl text-brand-text mb-4">OUR MISSION</h2>
-          <div className="h-[3px] w-12 bg-gradient-to-r from-[var(--color-brand-primary)] to-[var(--color-brand-accent)] mb-6" />
-          <p className="font-body text-brand-text/80 text-base leading-relaxed mb-8">
-            {storeInfo.mission} {storeInfo.expertise}{' '}
-            We believe that high-performance computing should be accessible without compromising on build quality or reliability.
-          </p>
-
-          <h2 className="font-heading text-2xl text-[var(--color-brand-primary)] mb-5 uppercase tracking-wider">OUR SERVICES</h2>
-          <ul className="font-body text-brand-text-muted space-y-3 mb-10">
-            {storeInfo.services.map((service, idx) => (
-              <li key={idx} className="block">
-                <motion.div
-                  initial={{ opacity: 0, x: -12 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.08, duration: 0.4 }}
-                  className="flex items-center gap-4 group/item"
-                >
-                  <motion.div
-                    className="w-3 h-3 border-2 border-[var(--color-brand-primary)] flex-shrink-0"
-                    whileHover={{ rotate: 45, backgroundColor: 'var(--color-brand-primary)' }}
-                    transition={{ duration: 0.25 }}
-                  />
-                  <span className="text-sm group-hover/item:text-[var(--color-brand-primary)] transition-colors duration-200">{service}</span>
-                </motion.div>
-              </li>
-            ))}
-          </ul>
-
+        <div className="space-y-10">
           <div>
-            <Link href="/contact">
-              <BrutalButton>GET IN TOUCH</BrutalButton>
+            <h2 className="font-heading text-4xl text-[#1A1A1A] mb-6 uppercase">Quality is Non-Negotiable.</h2>
+            <p className="font-body text-black/70 leading-relaxed text-lg italic border-l-4 border-[var(--color-brand-primary)] pl-6 mb-8">
+              "We founded Satya Computers in Hyderabad to solve a simple problem: Premium hardware was too expensive, and affordable hardware wasn't premium enough. We fixed that."
+            </p>
+            <p className="font-body text-black/60 leading-relaxed text-base">
+              Over the last decade, we have established ourselves as the go-to destination for high-performance refurbished laptops. Our expertise isn't just in selling; it's in the precision engineering that goes into every system we release back into the market. From custom thermal repasting to memory optimization, we treat every laptop like our first.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            {values.map((v, i) => (
+              <motion.div 
+                key={v.title}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="space-y-3"
+              >
+                <div className="w-10 h-10 flex items-center justify-center bg-black/5 text-[var(--color-brand-primary)]">
+                  <v.icon size={20} />
+                </div>
+                <h4 className="font-heading text-xl text-[#1A1A1A] uppercase">{v.title}</h4>
+                <p className="font-body text-xs text-black/50 leading-relaxed uppercase tracking-wider">{v.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center border-t border-black/5">
+        <motion.div
+           initial={{ opacity: 0, scale: 0.95 }}
+           whileInView={{ opacity: 1, scale: 1 }}
+           viewport={{ once: true }}
+           transition={{ duration: 0.6 }}
+           className="max-w-3xl mx-auto"
+        >
+          <h2 className="font-heading text-5xl md:text-7xl text-[#1A1A1A] mb-8 uppercase leading-[0.9]">READY TO UPGRADE YOUR <span className="text-[var(--color-brand-primary)]">WORKFLOW?</span></h2>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Link href="/products">
+              <BrutalButton>BROWSE INVENTORY</BrutalButton>
+            </Link>
+            <Link href="/contact" className="font-heading text-lg tracking-widest text-black/40 hover:text-[var(--color-brand-primary)] transition-colors uppercase border-b border-transparent hover:border-[var(--color-brand-primary)]">
+              CONSULT AN EXPERT &rarr;
             </Link>
           </div>
         </motion.div>

@@ -1,11 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { ShoppingCart, User, Menu, X } from 'lucide-react';
+import { ShoppingCart, User, Menu, X, LogOut } from 'lucide-react';
 import { useCart } from '@/lib/CartContext';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { signOut, useSession } from 'next-auth/react';
 
 const NAV_LINKS = [
   { label: 'Home', href: '/' },
@@ -17,6 +18,7 @@ const NAV_LINKS = [
 
 export default function GoldNavBar() {
   const { itemCount } = useCart();
+  const { data: session } = useSession();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [user, setUser] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
@@ -27,6 +29,15 @@ export default function GoldNavBar() {
     const savedUser = localStorage.getItem('satya_user');
     if (savedUser) setUser(savedUser);
   }, []);
+
+  const handleLogout = async () => {
+    if (session) {
+      await signOut({ redirect: true, callbackUrl: '/' });
+    }
+    localStorage.removeItem('satya_user');
+    setUser(null);
+    window.location.reload();
+  };
 
   // Close drawer on route change
   useEffect(() => {
@@ -42,6 +53,8 @@ export default function GoldNavBar() {
     }
     return () => { document.body.style.overflow = ''; };
   }, [mobileOpen]);
+
+  const displayName = session?.user?.name || user;
 
   return (
     <>
@@ -78,10 +91,21 @@ export default function GoldNavBar() {
 
             {/* Right Icons */}
             <div className="flex items-center space-x-5">
-              <Link href="/account" className="flex items-center gap-2 text-brand-text hover:text-[var(--color-brand-primary)] transition-colors" aria-label="User Profile">
-                <User size={24} />
-                {user && <span className="font-heading text-sm hidden sm:block mt-1 tracking-widest">{user}</span>}
-              </Link>
+              <div className="flex items-center gap-3">
+                <Link href="/account" className="flex items-center gap-2 text-brand-text hover:text-[var(--color-brand-primary)] transition-colors" aria-label="User Profile">
+                  <User size={24} />
+                  {displayName && <span className="font-heading text-sm hidden sm:block mt-1 tracking-widest">{displayName}</span>}
+                </Link>
+                {displayName && (
+                  <button 
+                    onClick={handleLogout}
+                    className="text-brand-text hover:text-red-500 transition-colors p-1"
+                    title="Logout"
+                  >
+                    <LogOut size={20} />
+                  </button>
+                )}
+              </div>
               <Link href="/cart" className="relative text-brand-text hover:text-[var(--color-brand-primary)] transition-colors" aria-label="Shopping Cart">
                 <ShoppingCart size={24} />
                 {itemCount > 0 && (
@@ -102,6 +126,7 @@ export default function GoldNavBar() {
           </div>
         </div>
       </nav>
+
 
       {/* Mobile Drawer */}
       <AnimatePresence>

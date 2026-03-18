@@ -2,11 +2,18 @@
 
 import { motion } from 'framer-motion';
 
-const brands = [
+interface TrustedMarqueeProps {
+  partners?: string[];
+}
+
+const defaultBrands = [
   "DELL", "HP", "LENOVO", "APPLE", "INTEL CORE", "AMD RYZEN", "NVIDIA RTX", "ASUS", "ACER", "MICROSOFT"
 ];
 
-export default function TrustedMarquee() {
+export default function TrustedMarquee({ partners = [] }: TrustedMarqueeProps) {
+  // Merge dynamic partners from DB with default brands
+  const brands = Array.from(new Set([...partners.map(p => p.toUpperCase()), ...defaultBrands]));
+  
   // We duplicate the array to create a seamless infinite loop
   const duplicatedBrands = [...brands, ...brands, ...brands];
 
@@ -24,7 +31,7 @@ export default function TrustedMarquee() {
           transition={{
             repeat: Infinity,
             ease: "linear",
-            duration: 30
+            duration: 40
           }}
         >
           {duplicatedBrands.map((brand, i) => (

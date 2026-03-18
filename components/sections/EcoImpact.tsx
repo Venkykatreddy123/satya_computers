@@ -4,12 +4,6 @@ import { motion } from 'framer-motion';
 import { Leaf, CircuitBoard, Battery, Globe2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-const stats = [
-  { id: 1, label: "E-WASTE DIVERTED", value: 450, suffix: "KG", icon: CircuitBoard },
-  { id: 2, label: "CO2 SAVED", value: 3.2, suffix: "TONS", icon: Globe2 },
-  { id: 3, label: "BATTERIES RECYCLED", value: 120, suffix: "+", icon: Battery }
-];
-
 // Simple component to animate counting up 
 function CountUp({ end, suffix, decimals = 0 }: { end: number, suffix: string, decimals?: number }) {
   const [count, setCount] = useState(0);
@@ -39,7 +33,17 @@ function CountUp({ end, suffix, decimals = 0 }: { end: number, suffix: string, d
   );
 }
 
-export default function EcoImpact() {
+interface EcoImpactProps {
+  unitCount?: number;
+}
+
+export default function EcoImpact({ unitCount = 5000 }: EcoImpactProps) {
+  const dynamicStats = [
+    { id: 1, label: "E-WASTE DIVERTED", value: unitCount * 0.09, suffix: " TONS", icon: CircuitBoard, decimals: 1 },
+    { id: 2, label: "CO2 SAVED", value: unitCount * 0.065, suffix: " TONS", icon: Globe2, decimals: 1 },
+    { id: 3, label: "BATTERIES RECYCLED", value: unitCount * 1.2, suffix: "+", icon: Battery, decimals: 0 }
+  ];
+
   return (
     <section className="py-24 bg-[#0a0a0a] border-y border-[var(--color-brand-primary)] relative overflow-hidden group">
       
@@ -69,7 +73,7 @@ export default function EcoImpact() {
 
         {/* Right: The Counters */}
         <div className="md:w-7/12 grid grid-cols-1 sm:grid-cols-2 gap-4 w-full h-full">
-           {stats.map((stat, idx) => (
+           {dynamicStats.map((stat, idx) => (
              <motion.div 
                key={stat.id}
                initial={{ opacity: 0, scale: 0.9 }}
@@ -88,7 +92,7 @@ export default function EcoImpact() {
                <CountUp 
                  end={stat.value} 
                  suffix={stat.suffix} 
-                 decimals={stat.value % 1 !== 0 ? 1 : 0} 
+                 decimals={stat.decimals} 
                />
                
                <div className="font-heading text-sm text-white/40 uppercase tracking-[0.3em] mt-2 group-hover:text-white transition-colors duration-300">

@@ -38,3 +38,5 @@ next-env.d.ts
 assign_images.js
 assign_gallery.js
 fix_products.js
+
+/lib/generated/prisma

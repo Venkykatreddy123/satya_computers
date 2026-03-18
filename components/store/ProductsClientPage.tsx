@@ -31,6 +31,7 @@ interface ProductsClientPageProps {
 export default function ProductsClientPage({ products }: ProductsClientPageProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBrand, setSelectedBrand] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [selectedBadge, setSelectedBadge] = useState<string | null>(null);
   const [sortOption, setSortOption] = useState<SortOption>('featured');
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 0]);
@@ -60,6 +61,19 @@ export default function ProductsClientPage({ products }: ProductsClientPageProps
   const brands = useMemo(() => {
     return Object.entries(brandCounts).sort((a, b) => b[1] - a[1]);
   }, [brandCounts]);
+
+  // Compute category counts
+  const categoryCounts = useMemo(() => {
+    return products.reduce((acc, product) => {
+      const cat = product.category || 'other';
+      acc[cat] = (acc[cat] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>);
+  }, [products]);
+
+  const categories = useMemo(() => {
+    return Object.entries(categoryCounts).sort((a, b) => b[1] - a[1]);
+  }, [categoryCounts]);
 
   // Compute badge counts
   const badgeCounts = useMemo(() => {
@@ -96,6 +110,11 @@ export default function ProductsClientPage({ products }: ProductsClientPageProps
     // Brand filter
     if (selectedBrand) {
       result = result.filter(p => p.brand === selectedBrand);
+    }
+
+    // Category filter
+    if (selectedCategory) {
+      result = result.filter(p => p.category === selectedCategory);
     }
 
     // Badge filter
@@ -144,6 +163,7 @@ export default function ProductsClientPage({ products }: ProductsClientPageProps
   const clearAllFilters = () => {
     setSearchQuery('');
     setSelectedBrand(null);
+    setSelectedCategory(null);
     setSelectedBadge(null);
     setSortOption('featured');
     setPriceRange([priceBounds.min, priceBounds.max]);
@@ -248,6 +268,11 @@ export default function ProductsClientPage({ products }: ProductsClientPageProps
                  STATUS: {selectedBadge} <span>×</span>
                </button>
              )}
+             {selectedCategory && (
+               <button onClick={() => setSelectedCategory(null)} className="border border-black px-2 py-1 font-heading text-[10px] flex items-center gap-2 hover:bg-[var(--color-brand-primary)] hover:text-white hover:border-transparent">
+                 CLASS: {selectedCategory} <span>×</span>
+               </button>
+             )}
              {(priceRange[0] > priceBounds.min || priceRange[1] < priceBounds.max) && (
                <button onClick={() => setPriceRange([priceBounds.min, priceBounds.max])} className="border border-black px-2 py-1 font-heading text-[10px] flex items-center gap-2 hover:bg-[var(--color-brand-primary)] hover:text-white hover:border-transparent">
                  PRICE: {formatPrice(priceRange[0])}-{formatPrice(priceRange[1])} <span>×</span>
@@ -277,8 +302,8 @@ export default function ProductsClientPage({ products }: ProductsClientPageProps
 
             {/* Brands Filter */}
             <div className="space-y-4">
-              <h4 className="font-heading text-sm tracking-[0.2em] text-black">SELECT BRAND</h4>
-              <div className="flex flex-col gap-1 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
+              <h4 className="font-heading text-sm tracking-[0.2em] text-black uppercase">Select Brand</h4>
+              <div className="flex flex-col gap-1 max-h-[250px] overflow-y-auto pr-2 custom-scrollbar">
                 {brands.map(([brand, count]) => (
                   <button
                     key={brand}
@@ -291,6 +316,26 @@ export default function ProductsClientPage({ products }: ProductsClientPageProps
                   >
                     <span className="tracking-widest uppercase">{brand}</span>
                     <span className={`text-[10px] ${selectedBrand === brand ? 'text-white/50' : 'text-black/30'}`}>{count}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Category Filter */}
+            <div className="space-y-4 pt-4 border-t border-black/5">
+              <h4 className="font-heading text-sm tracking-[0.2em] text-black uppercase">MODULE TYPE</h4>
+              <div className="flex flex-wrap gap-2">
+                {categories.map(([cat, count]) => (
+                  <button
+                    key={cat}
+                    onClick={() => setSelectedCategory(selectedCategory === cat ? null : cat)}
+                    className={`px-3 py-1.5 font-heading text-[10px] tracking-widest transition-all border uppercase ${
+                      selectedCategory === cat 
+                      ? 'bg-black text-white border-black' 
+                      : 'bg-white text-brand-text border-black/10 hover:border-black shadow-sm'
+                    }`}
+                  >
+                    {cat} <span className="opacity-40 ml-1">{count}</span>
                   </button>
                 ))}
               </div>

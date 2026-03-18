@@ -4,7 +4,19 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Timer, Zap } from 'lucide-react';
 
-export default function FlashSaleBanner() {
+interface Announcement {
+  id: string;
+  title: string;
+  type: string;
+  status: string;
+  date: string | null;
+}
+
+interface FlashSaleBannerProps {
+  announcement?: Announcement | null;
+}
+
+export default function FlashSaleBanner({ announcement }: FlashSaleBannerProps) {
   const [timeLeft, setTimeLeft] = useState(48 * 60 * 60); // 48 hours in seconds
 
   useEffect(() => {
@@ -20,6 +32,9 @@ export default function FlashSaleBanner() {
 
   const paddedFormat = (num: number) => num.toString().padStart(2, '0');
 
+  // If no live announcement, don't show the banner
+  if (!announcement) return null;
+
   return (
     <section className="py-2 px-4 bg-black border-y border-[var(--color-brand-primary)] overflow-hidden relative">
       {/* Background Animated Gradient */}
@@ -34,8 +49,8 @@ export default function FlashSaleBanner() {
         {/* Sale Message */}
         <div className="flex items-center gap-3">
            <Zap className="w-5 h-5 text-yellow-400 fill-yellow-400 animate-pulse" />
-           <p className="font-heading text-white uppercase tracking-wider text-sm md:text-base">
-             <span className="text-[var(--color-brand-primary)] font-black">SYSTEM UPGRADE:</span> Free DDR4 RAM doubling on all Dell Latitudes
+           <p className="font-heading text-white uppercase tracking-wider text-sm md:text-base text-center sm:text-left">
+             <span className="text-[var(--color-brand-primary)] font-black">{announcement.type.toUpperCase()}:</span> {announcement.title}
            </p>
         </div>
 
