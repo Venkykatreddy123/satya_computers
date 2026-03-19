@@ -54,7 +54,7 @@ export async function getLiveAnnouncement() {
 export async function getActiveOffers() {
   try {
     const result = await client.execute("SELECT * FROM \"Offer\" WHERE isActive = 1 ORDER BY createdAt DESC LIMIT 6");
-    return result.rows.map(row => ({
+    return result.rows.map((row: any) => ({
       id: String(row.id),
       type: String(row.type),
       title: String(row.title),
@@ -102,7 +102,7 @@ export async function getPartners() {
       ORDER BY createdAt DESC 
       LIMIT 12
     `);
-    return result.rows.map(row => String(row.companyName));
+    return result.rows.map((row: any) => String(row.companyName));
   } catch (error) {
     console.error('getPartners error:', error);
     return [];
@@ -112,7 +112,7 @@ export async function getPartners() {
 export async function getTeam() {
   try {
     const result = await client.execute('SELECT username, role, createdAt FROM "Admin" ORDER BY createdAt ASC');
-    return result.rows.map(row => ({
+    return result.rows.map((row: any) => ({
       username: String(row.username),
       role: String(row.role || 'System Admin'),
       createdAt: row.createdAt ? String(row.createdAt) : null
@@ -126,7 +126,7 @@ export async function getTeam() {
 export async function getRecentOrders() {
   try {
     const result = await client.execute('SELECT companyName, totalUnits, status, createdAt FROM "Order" ORDER BY createdAt DESC LIMIT 8');
-    return result.rows.map(row => ({
+    return result.rows.map((row: any) => ({
       companyName: String(row.companyName),
       totalUnits: Number(row.totalUnits),
       status: String(row.status),
