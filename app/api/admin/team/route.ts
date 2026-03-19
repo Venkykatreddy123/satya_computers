@@ -16,7 +16,7 @@ export async function GET() {
     });
 
     // Formatting consistent with UI expectations
-    const admins = result.rows.map(row => ({
+    const admins = result.rows.map((row: any) => ({
       id: row.id,
       username: row.username,
       role: row.role,
