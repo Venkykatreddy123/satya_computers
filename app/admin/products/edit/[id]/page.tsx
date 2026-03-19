@@ -395,6 +395,24 @@ export default function EditProduct() {
                 disabled={uploading}
               />
             </div>
+            
+            <div className="relative z-10 space-y-4 pt-4 border-t border-white/5">
+                <div className="flex items-center gap-2">
+                    <Info size={14} className="text-gray-400" />
+                    <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest">External Identity Link</p>
+                </div>
+                <input 
+                  type="text"
+                  name="image"
+                  placeholder="https://example.com/image.png"
+                  value={formData.image}
+                  onChange={(e) => {
+                    setFormData(prev => ({ ...prev, image: e.target.value }));
+                    setImagePreview(e.target.value);
+                  }}
+                  className="w-full px-6 py-4 rounded-[1.5rem] border border-white/10 bg-white/5 text-white outline-none focus:border-[#F97316] transition-all text-xs font-medium"
+                />
+            </div>
             {/* Aesthetic Glow */}
             <div className="absolute top-0 right-0 p-12 opacity-20 blur-[100px] pointer-events-none">
                <div className="w-64 h-64 rounded-full bg-[#F97316]" />
